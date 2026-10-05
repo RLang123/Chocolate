@@ -7,7 +7,7 @@
   "d1_databases": [{
     "binding": "DB",
     "database_name": "hacklingo-db",
-    "database_id": "00000000-0000-0000-0000-000000000000",
+    "database_id": "4d83e5fd-edc5-4115-afb8-90a9f3a5b4ab",
     "migrations_dir": "migrations"
   }]
 }
