@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "hacklingo",
+  "name": "chocolate",
   "main": "dist/server/index.js",
   "compatibility_date": "2026-10-05",
   "d1_databases": [{

@@ -48,7 +48,7 @@ npm run dev
 
 ### Git push로 자동 배포
 
-`main` 브랜치에 push하면 `.github/workflows/deploy.yml`이 테스트, D1 생성/재사용, 마이그레이션, Worker 배포를 순서대로 실행합니다. 데이터베이스 이름이 같으면 기존 DB를 재사용합니다. 동시에 여러 배포가 데이터베이스를 변경하지 않도록 작업을 직렬 실행합니다.
+`main` 브랜치에 push하면 `.github/workflows/deploy.yml`이 테스트, 기존 D1 확인/연결, 마이그레이션, Worker 배포를 순서대로 실행합니다. 데이터베이스 이름이 같으면 기존 DB를 재사용합니다. 동시에 여러 배포가 데이터베이스를 변경하지 않도록 작업을 직렬 실행합니다.
 
 최초 한 번 [GitHub Actions secrets 설정](https://github.com/RLang123/Chocolate/settings/secrets/actions)에 다음 두 항목을 등록하세요.
 
@@ -65,7 +65,7 @@ npm run cloudflare:login
 npm run deploy
 ```
 
-로그인 명령이 안내하는 주소를 본인 브라우저에서 열고 코드를 입력해 승인합니다. Codespaces에서도 localhost 콜백 없이 로그인할 수 있습니다. `npm run deploy`가 원격 D1을 생성하거나 재사용하고, ID를 `wrangler.jsonc`에 저장한 뒤 마이그레이션·빌드·배포합니다. 초기의 `00000000-0000-0000-0000-000000000000`은 로컬 테스트용 값이며 자동으로 교체합니다.
+로그인 명령이 안내하는 주소를 본인 브라우저에서 열고 코드를 입력해 승인합니다. Codespaces에서도 localhost 콜백 없이 로그인할 수 있습니다. `npm run deploy`는 확인된 계정의 기존 D1을 조회하고, ID를 `wrangler.jsonc`에 저장한 뒤 마이그레이션·빌드·배포합니다. 데이터베이스를 자동 생성하지 않습니다. 초기의 `00000000-0000-0000-0000-000000000000`은 로컬 테스트용 값입니다. 실제 DB 조회가 성공해야 교체됩니다. 이 값으로 `npx wrangler deploy`를 직접 실행하면 10181 오류가 납니다.
 
 Codespaces에서 개발하려면 `npm run dev`를 실행하고 **Ports → 8787 → Open in Browser**를 선택합니다. `.devcontainer/devcontainer.json`은 Node 24와 포트 전달을 설정합니다. Codespaces 미리보기 주소는 Codespace가 실행 중일 때 사용하고, 친구와 계속 공유할 주소는 Cloudflare 배포 주소입니다.
 
@@ -113,3 +113,13 @@ npm run build
 OpenAI Sites가 웹 앱과 게임을 호스팅할 때 사용하는 주소입니다. 직접 서버를 구성하지 않아도 게시하고 공유할 수 있습니다. Cloudflare는 별도의 호스팅 서비스이며, 이 프로젝트의 Worker와 D1을 본인의 계정에서 관리할 수 있습니다.
 
 [OpenAI 공식 Sites 문서](https://learn.chatgpt.com/docs/sites)는 13세 미만을 대상으로 한 서비스가 지원 범위에 들지 않는다고 명시합니다. 이 프로젝트의 초등학생 대상 새 버전을 Sites에 추가 게시하지 않은 이유입니다.
+
+## Cloudflare 대시보드의 chocolate 프로젝트
+
+Worker 이름은 `chocolate`, D1 바인딩은 `DB`입니다. Workers Builds에서 빌드 명령은 `npm run build`, 배포 명령은 `npm run deploy`로 지정하세요. `npx wrangler deploy`만 실행하면 D1 확인과 마이그레이션을 건너뜁니다.
+
+대시보드에서 확인한 배포 계정 ID를 빌드 환경 변수 `CLOUDFLARE_ACCOUNT_ID` 또는 Wrangler의 `account_id`로 지정하세요. Workers Builds의 인증 토큰은 Cloudflare가 관리하며 D1 조회·마이그레이션 권한도 필요합니다.
+
+`npx wrangler d1 list --json`으로 해당 계정의 `hacklingo-db`를 먼저 확인합니다. 없으면 계정이 맞는지 확인한 뒤에만 `npx wrangler d1 create hacklingo-db`로 생성하세요. 실제 ID를 `database_id`에 입력합니다. 설정된 ID가 조회 결과와 다르면 배포는 중단됩니다.
+
+`0001_multiplayer.sql`은 테이블과 인덱스를 생성하며 DROP/DELETE는 없습니다. 배포 스크립트는 원격 마이그레이션 목록을 조회하고 미적용 항목만 적용합니다. 기존 테이블이 있지만 마이그레이션 기록이 없다면 그대로 중단될 수 있으므로, 테이블 삭제 대신 기존 스키마와 이력부터 확인하세요.
