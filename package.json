@@ -1,0 +1,22 @@
+{
+  "name": "hacklingo",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/server.test.mjs",
+    "deploy": "node scripts/cloudflare-deploy.mjs",
+    "cloudflare:login": "wrangler login --device --browser=false",
+    "db:local": "wrangler d1 migrations apply DB --local",
+    "db:remote": "wrangler d1 migrations apply DB --remote",
+    "dev:cloudflare": "npm run build && wrangler dev"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "devDependencies": {
+    "wrangler": "^4.147.0"
+  }
+}

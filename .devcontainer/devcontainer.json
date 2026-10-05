@@ -1,0 +1,11 @@
+{
+  "name": "HackLingo",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-24-bookworm",
+  "forwardPorts": [8787, 8790],
+  "portsAttributes": {
+    "8787": { "label": "HackLingo", "onAutoForward": "notify" },
+    "8790": { "label": "Cloudflare 로컬 미리보기", "onAutoForward": "notify" }
+  },
+  "postCreateCommand": "npm ci && npm run build",
+  "remoteUser": "node"
+}

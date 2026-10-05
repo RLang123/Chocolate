@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hacklingo",
+  "main": "dist/server/index.js",
+  "compatibility_date": "2026-10-05",
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "hacklingo-db",
+    "database_id": "00000000-0000-0000-0000-000000000000",
+    "migrations_dir": "migrations"
+  }]
+}

@@ -1,0 +1,7 @@
+node_modules/
+.wrangler/
+.local/
+dist/server/
+*.zip
+.env
+.dev.vars
