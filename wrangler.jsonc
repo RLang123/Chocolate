@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "chocolate",
+  "account_id": "05904b7ed667ebc487afcbec9d715be8",
   "main": "dist/server/index.js",
   "compatibility_date": "2026-10-05",
   "d1_databases": [{
