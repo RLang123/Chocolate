@@ -16,17 +16,21 @@ HTML·CSS·JavaScript 문법부터 실제 서버 흐름까지 차근차근 배�
 
 ## 2. CSS: 화면을 어떻게 보이게 할지
 
-`index.html`의 Burgundy theme 블록에서 색상을 정합니다.
+`index.html`의 `Burgundy / cargo design system` 블록에서 색상을 정합니다.
 
 ```css
 :root {
   --brand: #7b263f;
-  --brand-soft: #f7edf0;
+  --brand-soft: #f5eaee;
+  --cargo: #626b46;
+  --ink: #191b19;
 }
 .logo-mark { background: var(--brand); }
 ```
 
 `--brand`는 여러 곳에서 재사용할 수 있는 CSS 변수입니다. `var(--brand)`는 그 색을 가져옵니다. `--brand-soft`는 안내 상자와 선택 표시의 연한 배경입니다. 기존 스타일의 일부 색상은 직접 지정되어 있으므로 전체 색상을 바꾸려면 관련 색상도 함께 확인하세요.
+
+`--cargo`는 학습 상태와 보조 패널, `--ink`는 본문·제목에 사용합니다. 겹친 배너·입체 버튼·그림자·모바일 배치의 설명은 [디자인 코드 안내](DESIGN_GUIDE.md)를 참고하세요.
 
 `@media(max-width:480px)` 안의 규칙은 작은 화면에 적용됩니다. 긴 주소가 화면 밖으로 나가지 않게 `.option>span`에 `min-width:0`과 `overflow-wrap:anywhere`를 사용합니다. 앞의 규칙은 글자 영역이 줄어들 수 있게 하고, 뒤의 규칙은 긴 주소도 줄바꿈할 수 있게 합니다.
 
