@@ -4,6 +4,7 @@
   "account_id": "05904b7ed667ebc487afcbec9d715be8",
   "main": "dist/server/index.js",
   "compatibility_date": "2026-10-05",
+  "build": { "command": "npm run build" },
   "d1_databases": [{
     "binding": "DB",
     "database_name": "hacklingo-db",

@@ -1,6 +1,6 @@
 # HackLingo · Security Lab
 
-입문자도 직접 실험할 수 있는 사이버 보안 학습 플랫폼입니다. 단일 파일 프런트엔드, 27개 실습, 실제 참가자 랭킹, 방 코드로 함께 도전하는 친구 방을 제공합니다. 밝은 중립색 화면과 명암 대비가 높은 본문, 짙은 코드 패널을 사용합니다. 다람쥐 Byte는 작은 학습 파트너로 남겨 두었습니다.
+입문자도 직접 실험할 수 있는 사이버 보안 학습 플랫폼입니다. 단일 파일 프런트엔드, 27개 실습, 실제 참가자 랭킹, 방 코드로 함께 도전하는 친구 방을 제공합니다. 버건디(`#7b263f`)를 중심 색상으로 사용하며, 밝은 중립색 화면과 명암 대비가 높은 본문, 짙은 코드 패널을 사용합니다. 다람쥐 Byte는 작은 학습 파트너로 남겨 두었습니다.
 
 ## 실행
 
@@ -50,9 +50,9 @@ npm run dev
 
 `main` 브랜치에 push하면 `.github/workflows/deploy.yml`이 테스트, 기존 D1 확인/연결, 마이그레이션, Worker 배포를 순서대로 실행합니다. 데이터베이스 이름이 같으면 기존 DB를 재사용합니다. 동시에 여러 배포가 데이터베이스를 변경하지 않도록 작업을 직렬 실행합니다.
 
-최초 한 번 [GitHub Actions secrets 설정](https://github.com/RLang123/Chocolate/settings/secrets/actions)에 다음 두 항목을 등록하세요.
+GitHub Actions로 배포하려면 최초 한 번 [GitHub Actions secrets 설정](https://github.com/RLang123/Chocolate/settings/secrets/actions)에 토큰을 등록하세요. Cloudflare 대시보드의 **Workers Builds**는 별도의 자동 배포 경로이며, 그 경로의 성공 여부는 GitHub 커밋의 `Workers Builds: chocolate` 검사에서 확인합니다.
 
-- `CLOUDFLARE_ACCOUNT_ID`: Cloudflare 계정 ID.
+- `CLOUDFLARE_ACCOUNT_ID`: 선택 사항. 이미 `wrangler.jsonc`에 확인한 계정 ID가 있습니다. 등록한다면 그 ID와 같아야 합니다.
 - `CLOUDFLARE_API_TOKEN`: 해당 계정의 Workers Scripts 편집, D1 편집, Account Settings 읽기 권한을 가진 API 토큰. workers.dev 주소 등록에도 Account Settings 권한이 필요합니다.
 
 토큰은 코드나 채팅에 넣지 않습니다. 등록 후 `git push origin main`을 실행하거나 [Actions](https://github.com/RLang123/Chocolate/actions)의 **Deploy HackLingo to Cloudflare → Run workflow**로 재실행하세요. 성공한 작업 로그의 `*.workers.dev`가 공유 주소입니다. Git push만으로 Cloudflare 인증이 생기지는 않으며 위 secrets가 없으면 설명과 함께 작업이 중단됩니다.
@@ -62,10 +62,11 @@ npm run dev
 ```bash
 npm ci
 npm run cloudflare:login
+npm run cloudflare:check
 npm run deploy
 ```
 
-로그인 명령이 안내하는 주소를 본인 브라우저에서 열고 코드를 입력해 승인합니다. Codespaces에서도 localhost 콜백 없이 로그인할 수 있습니다. `npm run deploy`는 확인된 계정의 기존 D1을 조회하고, ID를 `wrangler.jsonc`에 저장한 뒤 마이그레이션·빌드·배포합니다. 데이터베이스를 자동 생성하지 않습니다. 초기의 `00000000-0000-0000-0000-000000000000`은 로컬 테스트용 값입니다. 실제 DB 조회가 성공해야 교체됩니다. 이 값으로 `npx wrangler deploy`를 직접 실행하면 10181 오류가 납니다.
+로그인 명령이 안내하는 주소를 본인 브라우저에서 열고 코드를 입력해 승인합니다. Codespaces에서도 localhost 콜백 없이 로그인할 수 있습니다. `npm run cloudflare:check`는 계정의 기존 D1 이름·UUID 일치를 읽기 전용으로 확인합니다. `npm run deploy`는 설정·자동 배포 인증·기존 D1을 확인한 뒤 빌드·미적용 마이그레이션·배포를 실행합니다. 데이터베이스를 자동 생성하지 않습니다. 임시 ID `00000000-0000-0000-0000-000000000000`은 배포 전에 거부합니다. 현재 설정에는 기존 `hacklingo-db`의 실제 UUID가 들어 있습니다.
 
 Codespaces에서 개발하려면 `npm run dev`를 실행하고 **Ports → 8787 → Open in Browser**를 선택합니다. `.devcontainer/devcontainer.json`은 Node 24와 포트 전달을 설정합니다. Codespaces 미리보기 주소는 Codespace가 실행 중일 때 사용하고, 친구와 계속 공유할 주소는 Cloudflare 배포 주소입니다.
 
@@ -118,6 +119,10 @@ OpenAI Sites가 웹 앱과 게임을 호스팅할 때 사용하는 주소입니�
 
 Worker 이름은 `chocolate`, D1 바인딩은 `DB`입니다. Workers Builds에서 빌드 명령은 `npm run build`, 배포 명령은 `npm run deploy`로 지정하세요. `npx wrangler deploy`만 실행하면 D1 확인과 마이그레이션을 건너뜁니다.
 
+저장소 `RLang123/Chocolate`의 **main 브랜치**, **저장소 최상위 루트**를 연결하세요. Wrangler에도 빌드 명령을 지정해 직접 Wrangler를 실행할 때 최신 프런트엔드와 서버를 생성하도록 했습니다. 빌드 설정 검사에서는 임시 D1 ID와 Worker 이름 불일치를 먼저 잡습니다.
+
+10월 5일 로그에 `hacklingo` 이름이나 `00000000-…`가 보인다면 과거 커밋의 실패 기록입니다. 최신 main의 설정은 `chocolate`과 실제 D1 UUID입니다. **이전 빌드 재시도 대신 최신 커밋으로 새 빌드**를 실행하고, 로그의 커밋 SHA를 GitHub main과 비교하세요. 자세한 원인별 확인 순서는 [Cloudflare 배포 안내](docs/CLOUDFLARE_GUIDE.md)에 있습니다.
+
 대시보드에서 확인한 배포 계정 ID를 빌드 환경 변수 `CLOUDFLARE_ACCOUNT_ID` 또는 Wrangler의 `account_id`로 지정하세요. Workers Builds의 인증 토큰은 Cloudflare가 관리하며 D1 조회·마이그레이션 권한도 필요합니다.
 
 `npx wrangler d1 list --json`으로 해당 계정의 `hacklingo-db`를 먼저 확인합니다. 없으면 계정이 맞는지 확인한 뒤에만 `npx wrangler d1 create hacklingo-db`로 생성하세요. 실제 ID를 `database_id`에 입력합니다. 설정된 ID가 조회 결과와 다르면 배포는 중단됩니다.
@@ -160,3 +165,47 @@ Snake 학습 보상은 실제 먹이 함수 조작 기록, 서버 검증 패치,
 21번째 실습은 네 개의 가상 명령을 읽고 XOR 값을 역으로 추론하는 리버스 엔지니어링입니다. 실제 네이티브 바이너리를 분석하는 도구는 아니며, 관찰·명령 해석·동작 추론의 원리를 배우는 작은 명령 프로그램입니다. 정답은 서버의 실습 시드별로 검증됩니다.
 
 SQL 코드 수리 실습에는 검색어를 직접 붙이는 쿼리와 매개변수 쿼리의 결과 비교가 있습니다. 온라인 `/api/labs/sql`은 허용된 이름·두 개의 고정 OR 예제만 받으며, 가상 이름 세 개의 읽기 전용 CTE를 D1에서 실행합니다. 실제 players 테이블이나 계정 데이터는 쿼리에 포함되지 않습니다. 오프라인은 같은 결과를 보여주는 원리 모형으로 표시합니다. 실험은 XP나 실습 진행을 저장하지 않습니다. 새 마이그레이션은 필요하지 않습니다.
+
+
+## 입문자를 위한 화면과 주요 코드
+
+첫 화면은 **비밀번호 → 피싱 메일 → 내 게임 규칙** 순서로 안내합니다. 전체 목록도 기초 실습을 먼저 보여줍니다. 모든 실습 개요에는 분야별 기본 용어를 쉬운 말로 풀어 쓴 안내가 있습니다. 시작 안내에서는 요청·응답·서버·취약점·패치를 설명합니다.
+
+코드를 읽을 때는 다음 순서로 따라가세요.
+
+1. `index.html`의 `<style>`: 화면의 색·간격·크기를 정합니다. 마지막 Burgundy theme 블록의 `--brand`는 버건디 중심 색상, `--brand-soft`는 연한 선택 배경입니다.
+2. `renderMissions()`: 실습 데이터를 검색·필터링·정렬한 뒤 카드 HTML로 만듭니다. `learningOrder`는 처음 배우는 사람에게 보여줄 순서이며 미션 ID나 서버 규칙을 바꾸지 않습니다.
+3. `openMission(id)` → `renderLesson()`: 실습 창을 열고 개요·문제·완료 화면을 표시합니다. `beginnerNote(category)`는 개요에 기본 용어 설명을 붙입니다. `lessonGuides`와 `stepInstructions()`는 27개 실습의 목표와 현재 단계의 조작 순서를 안내합니다.
+4. `beginChallenge()` → `evaluateAnswer()`: 문제를 시작하고 답을 제출합니다. 로그인한 사용자의 정답 판정은 서버에 요청합니다.
+5. `server/rules.mjs`: 정답과 게임 규칙을 검사합니다. `server/worker.mjs`는 계정·실습·랭킹·친구 방 API를 처리합니다. 화면에 표시한 점수를 그대로 믿지 않고 서버에서 검증합니다.
+6. `migrations/0001_multiplayer.sql`: 계정·실습 기록·방을 보관하는 데이터베이스 구조입니다. `scripts/build.mjs`는 공유 규칙과 프런트엔드를 배포 파일로 묶습니다.
+
+예를 들어 첫 실습 버튼의 `data-mission="0"`을 누르면 공통 클릭 처리기가 `openMission(0)`을 호출합니다. 개요를 읽고 시작하면 문제가 나타나고, 답을 확인하면 결과와 해설을 볼 수 있습니다. HTML은 구조, CSS는 디자인, JavaScript는 이 동작을 담당합니다.
+
+학습 단계는 **기초 15개 → 규칙 실험 4개 → 응용 원리 8개**로 나뉩니다. 전체 목록에서 단계와 분야·검색을 함께 적용할 수 있으며 모든 실습은 자유롭게 열 수 있습니다. 시작 안내에는 단계별 완료 수와 이어갈 실습이 표시됩니다. 완료 화면은 아직 끝내지 않은 다음 실습을 추천합니다. 점수·계정·방 데이터와 서버 검증 규칙은 기존 구조를 사용합니다.
+
+주요 코드를 처음부터 따라 읽는 설명은 [코드 학습 안내](docs/CODE_GUIDE.md)를 참고하세요.
+
+코딩이 처음이라면 [내 사이트로 배우는 웹 개발과 보안](docs/LEARNING_GUIDE.md)부터 읽어보세요. 기본 문법, 주요 코드의 동작 흐름, 서버·저장·보안의 원리와 직접 해볼 연습 여섯 개를 담았습니다.
+
+### 단계별 도움과 이어서 배우기
+
+비밀번호·피싱 메일·내 게임 규칙 실습은 세 단계로 구체화되는 힌트와 현재 조작할 곳의 버건디 테두리를 제공합니다. 비밀번호 실습은 입력값을 다시 표시하지 않고 길이와 조건만 비교합니다. 피싱은 단서 확인 전후의 판단, 게임 규칙은 초기 1점·방어 꺼짐과 테스트한 규칙의 결과를 비교합니다. 정답 피드백과 완료 화면에는 달라진 점과 이유가 표시됩니다. 나머지 실습도 단계 안내에 연결된 힌트와 완료 시 원인·방어 비교를 제공합니다.
+
+메인 화면의 **나의 학습**에는 중간에 닫은 실습의 이어하기, 완료한 실습의 핵심 원리와 다음 목표가 표시됩니다. 혼자 연습의 이어하기는 `hacklingo-practice-progress`에 실습 ID·다음 미완료 단계·게임 시드만 저장합니다. 비밀번호나 답변 입력값은 저장하지 않습니다. 현재 단계의 입력과 게임은 다시 실행합니다.
+
+로그인 상태에서는 `GET /api/attempts/current`가 **본인 계정의 가장 최근 혼자 실습**을 조회합니다. 서버가 저장한 단계부터 다시 열며 기존 30분 유효 시간을 따릅니다. 최신 실습이 완료되거나 만료되면 오래된 다른 실습을 자동으로 되살리지 않습니다. 친구 방 실습은 이 이어하기에서 제외하고 기존 방 화면에서 진행합니다. 다른 기기의 복구 로그인에도 같은 서버 진행을 사용할 수 있습니다. 기존 데이터베이스 스키마를 사용합니다.
+
+주요 함수: `currentHints()`·`renderHint()`는 힌트, `updateCoach()`는 조작 강조, `stepComparison()`·`learningRecapMarkup()`는 비교 설명, `saveStudyCheckpoint()`·`resumeStudy()`·`renderStudyDashboard()`는 진행과 메인 안내를 담당합니다.
+
+### 이번 버전의 검증과 배포
+
+2026-10-08에 [Cloudflare 공개 사이트](https://chocolate.flow-er123.workers.dev)에 직접 배포했습니다. 기존 D1을 사용하며 미적용 마이그레이션은 없었습니다. 당시 배포 버전 ID는 `1977a4c8-60fa-4847-a0c3-a2c69770992c`입니다. 2026-10-09에는 자동 배포 설정 검사를 추가했습니다. 최신 자동 배포 결과는 GitHub 커밋의 `Workers Builds: chocolate`에서 확인합니다.
+
+- 서버 테스트 16개와 배포 설정 테스트 5개 통과.
+- Chromium의 1440·768·390·320px 화면에서 27개 실습 개요와 첫 단계 렌더링 확인.
+- PC·모바일에서 첫 세 실습 완료, 오답 재시도, 힌트, 추천과 기록 저장 확인.
+- 별도 브라우저 계정 복구, 두 사용자 친구 방 완료, 중복 일일 보상 방지 확인.
+- 키보드 설명 탭, 추천 후 포커스 복귀, 전체 완료 화면, 단계·분야·검색 조합 확인.
+- 배포 주소의 PC·모바일 화면, 27개 실습, 학습 안내와 API 연결 확인.
+- 2026-10-09: 1280·390·320px에서 27개 실습 렌더링과 조작 강조 확인. QR·사진·권한·SQL 코드 선택·로봇·암호·역분석 및 여섯 응용 시나리오의 안내 전환 확인.
