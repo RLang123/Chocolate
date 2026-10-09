@@ -1,4 +1,4 @@
-name: Deploy HackLingo to Cloudflare
+name: Verify HackLingo and optionally deploy to Cloudflare
 
 on:
   push:
@@ -13,7 +13,35 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      deploy_enabled: ${{ steps.authentication.outputs.deploy_enabled }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - name: Check optional Actions deployment authentication
+        id: authentication
+        run: |
+          node --input-type=module <<'NODE'
+          import { appendFileSync } from 'node:fs';
+          const enabled = Boolean(process.env.CLOUDFLARE_API_TOKEN?.trim());
+          appendFileSync(process.env.GITHUB_OUTPUT, `deploy_enabled=${enabled}\n`);
+          if (!enabled) console.log('::notice::GitHub Actions 배포는 생략합니다. 연결된 Cloudflare Workers Builds의 배포 결과는 Workers Builds: chocolate 검사에서 확인하세요. Actions로도 배포하려면 CLOUDFLARE_API_TOKEN secret을 등록하세요.');
+          NODE
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
   deploy:
+    needs: verify
+    if: needs.verify.outputs.deploy_enabled == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -28,7 +56,6 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       - run: npm ci
-      - run: npm test
       - name: Verify existing D1, migrate, build and deploy
         run: npm run deploy
         env:

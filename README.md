@@ -48,14 +48,14 @@ npm run dev
 
 ### Git push로 자동 배포
 
-`main` 브랜치에 push하면 `.github/workflows/deploy.yml`이 테스트, 기존 D1 확인/연결, 마이그레이션, Worker 배포를 순서대로 실행합니다. 데이터베이스 이름이 같으면 기존 DB를 재사용합니다. 동시에 여러 배포가 데이터베이스를 변경하지 않도록 작업을 직렬 실행합니다.
+`main` 브랜치에 push하면 `.github/workflows/deploy.yml`이 테스트와 빌드를 항상 실행합니다. `CLOUDFLARE_API_TOKEN`이 등록된 경우에만 Actions의 추가 배포 작업이 기존 D1 확인, 마이그레이션, Worker 배포를 실행합니다. 토큰이 없으면 그 배포 작업은 **생략**하며 연결된 **Cloudflare Workers Builds**에서 자동 배포 결과를 확인합니다. 테스트 성공과 배포 성공은 각각 확인해야 합니다. 동시에 여러 Actions 배포가 데이터베이스를 변경하지 않도록 작업을 직렬 실행합니다.
 
 GitHub Actions로 배포하려면 최초 한 번 [GitHub Actions secrets 설정](https://github.com/RLang123/Chocolate/settings/secrets/actions)에 토큰을 등록하세요. Cloudflare 대시보드의 **Workers Builds**는 별도의 자동 배포 경로이며, 그 경로의 성공 여부는 GitHub 커밋의 `Workers Builds: chocolate` 검사에서 확인합니다.
 
 - `CLOUDFLARE_ACCOUNT_ID`: 선택 사항. 이미 `wrangler.jsonc`에 확인한 계정 ID가 있습니다. 등록한다면 그 ID와 같아야 합니다.
 - `CLOUDFLARE_API_TOKEN`: 해당 계정의 Workers Scripts 편집, D1 편집, Account Settings 읽기 권한을 가진 API 토큰. workers.dev 주소 등록에도 Account Settings 권한이 필요합니다.
 
-토큰은 코드나 채팅에 넣지 않습니다. 등록 후 `git push origin main`을 실행하거나 [Actions](https://github.com/RLang123/Chocolate/actions)의 **Deploy HackLingo to Cloudflare → Run workflow**로 재실행하세요. 성공한 작업 로그의 `*.workers.dev`가 공유 주소입니다. Git push만으로 Cloudflare 인증이 생기지는 않으며 위 secrets가 없으면 설명과 함께 작업이 중단됩니다.
+토큰은 코드나 채팅에 넣지 않습니다. 등록 후 `git push origin main`을 실행하거나 [Actions](https://github.com/RLang123/Chocolate/actions)의 **Verify HackLingo and optionally deploy to Cloudflare → Run workflow**로 재실행하세요. 성공한 배포 작업 로그의 `*.workers.dev`가 공유 주소입니다. 토큰 없이 직접 `npm run deploy`를 자동 실행하면 이유를 표시하고 중단합니다. Workers Builds를 사용하는 데 GitHub Actions secret 등록은 필수가 아닙니다.
 
 ### Codespaces에서 직접 배포
 

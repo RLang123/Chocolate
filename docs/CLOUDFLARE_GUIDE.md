@@ -10,7 +10,7 @@
 | Cloudflare Workers Builds | Cloudflare의 빌드 서버 | Settings → Build에서 선택한 API token | GitHub 커밋의 `Workers Builds: chocolate` 검사 |
 | GitHub Actions | GitHub의 실행 서버 | Repository secret `CLOUDFLARE_API_TOKEN` | Actions의 `deploy` 작업 |
 
-Codespaces에서 승인한 로그인은 다른 서버로 복사되지 않습니다. Workers Builds가 성공해도 GitHub Actions는 별도의 토큰이 없으면 실패할 수 있습니다. 하나의 실패 기록만 보고 공개 사이트까지 고장 났다고 판단하지 말고 어느 경로인지 먼저 확인하세요.
+Codespaces에서 승인한 로그인은 다른 서버로 복사되지 않습니다. Workers Builds가 성공해도 GitHub Actions로 직접 배포하려면 별도의 토큰이 필요합니다. 현재 워크플로는 테스트·빌드를 항상 실행하고, 토큰이 없으면 Actions 배포 작업만 생략합니다. 실제 공개 배포 결과는 `Workers Builds: chocolate`에서 별도로 확인합니다. 하나의 실패 기록만 보고 공개 사이트까지 고장 났다고 판단하지 말고 어느 경로인지 먼저 확인하세요.
 
 ## 10181: 데이터베이스를 찾을 수 없음
 
@@ -61,18 +61,27 @@ GitHub → Settings → Secrets and variables → Actions → New repository sec
 
 `CLOUDFLARE_ACCOUNT_ID`는 현재 파일에 있으므로 추가 등록이 필수는 아닙니다. 등록한다면 파일과 같은 계정이어야 합니다.
 
-토큰을 코드·문서·채팅에 넣지 마세요. 설정 후 Actions → Deploy HackLingo to Cloudflare → Run workflow를 실행합니다. 테스트 통과와 배포 성공은 별도의 결과입니다.
+토큰을 코드·문서·채팅에 넣지 마세요. 설정 후 Actions → Verify HackLingo and optionally deploy to Cloudflare → Run workflow를 실행합니다. 테스트 통과와 배포 성공은 별도의 결과입니다. 연결된 Workers Builds로만 배포한다면 GitHub 토큰을 추가할 필요가 없습니다.
 
 Cloudflare Workers Builds의 토큰도 D1 조회와 마이그레이션 권한이 있어야 합니다. `10181`과 달리 인증·권한 오류가 나오면 Settings → Build의 API token을 확인합니다.
 
 ## 수정한 주요 코드
+
+Codespaces에서 `git push`에 `git-lfs was not found`가 나오면 Git LFS 도구가 빠진 것입니다. 이번 환경에서는 아래 명령으로 설치한 뒤 업로드에 성공했습니다. 새 Codespace에도 같은 오류가 나오면 도구를 설치하고 다시 push하세요.
+
+```bash
+sudo apt-get install -y git-lfs
+git push origin main
+```
+
+Git hook은 push 전에 실행하는 검사입니다. 이 저장소의 hook이 Git LFS를 호출하므로 도구가 없으면 Cloudflare에 새 코드가 전달되기 전 단계에서 막힙니다.
 
 - `scripts/cloudflare-config.mjs`: Worker·계정·D1 UUID·자동 배포 토큰을 검사하는 순수 함수입니다. 비밀 값을 출력하지 않습니다.
 - `scripts/cloudflare-check.mjs`: 설정 검사 뒤 Wrangler로 원격 D1을 조회합니다. `--config-only`는 네트워크 없이 설정만 확인합니다.
 - `scripts/cloudflare-deploy.mjs`: 검사 → 기존 DB 확인 → 빌드 → 미적용 마이그레이션 → 업로드 순서입니다.
 - `scripts/build.mjs`: 공유 규칙과 HTML을 서버 파일로 묶기 전에 배포 대상 설정을 검사합니다. 토큰 없이도 로컬 빌드를 할 수 있습니다.
 - `wrangler.jsonc`의 `build.command`: Wrangler 직접 배포에도 최신 파일을 빌드합니다.
-- `.github/workflows/deploy.yml`: 토큰 누락을 초기에 설명한 뒤 테스트와 배포를 실행합니다.
+- `.github/workflows/deploy.yml`: 테스트·빌드를 실행하고, 토큰이 있으면 별도 배포 작업에서 인증을 검사해 배포합니다. 토큰이 없으면 실제 배포를 한 것처럼 표시하지 않고 해당 작업을 생략합니다.
 - `tests/cloudflare.test.mjs`: 임시 UUID, 잘못된 계정, Worker 불일치, 빈 토큰, 원격 DB 불일치가 배포 전에 차단되는지 검증합니다.
 
 배울 개념은 **설정 값과 비밀 값의 차이**, **로컬 파일과 GitHub 커밋의 차이**, **빌드와 배포의 차이**, **서버마다 별도로 필요한 인증**, **업로드 전에 오류를 잡는 검증**입니다.
