@@ -74,6 +74,7 @@ function labWireExecutions(){
     button.onclick=async function(event){
       const result=$('#'+resultId),before=result?.innerHTML;
       const bench=button.closest('.request-workbench,.scenario-lab,.sql-demo,.reverse-lab');
+      const experience=window.TraceExperience?.begin(buttonId,bench,result);
       labPendingOperations++;bench?.classList.add('is-running');button.setAttribute('aria-busy','true');labSyncState();
       try{return await handler.call(this,event);}
       finally{
@@ -83,6 +84,7 @@ function labWireExecutions(){
           labEnter(result);
           [...result.querySelectorAll('li')].slice(0,6).forEach((line,index)=>labEnter(line,30+index*35));
         }
+        window.TraceExperience?.finish(experience,result);
       }
     };
   }

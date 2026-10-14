@@ -7,6 +7,9 @@
   // Share the same live preference object as lesson motion and its cancellation listener.
   const preference=labMotionPreference;
   const characters='01ABCDEF{}[]<>/?:=+_';
+  const hoodMask=new Path2D('M200 38C157 40 128 73 108 116L76 210L91 250C45 264 21 309 10 412H390C379 309 355 264 309 250L324 210L292 116C272 73 243 40 200 38Z');
+  const faceMask=new Path2D('M200 76C166 86 140 123 124 159L109 214L150 250L200 280L250 250L291 214L276 159C260 123 234 86 200 76Z');
+  let particles=[],figureWidth=0,figureTop=0;
   let width=0,height=0,elapsed=0,previousTime=0,frame=0,visible=false,paused=false,reducedMotion=preference.matches;
   const layers=['back','front'].map(name=>{
     const canvas=document.getElementById('code-rain-'+name);
@@ -27,6 +30,13 @@
         speed:(layer.front?25:33)+noise(index+5)*35,length:8+Math.floor(noise(index+17)*13),offset:noise(index+47)*(height+350)
       }));
     }
+    figureWidth=figure.getBoundingClientRect().width;
+    figureTop=parseFloat(getComputedStyle(figure).top)||0;
+    particles=[];
+    const maskContext=document.createElement('canvas').getContext('2d');
+    if(maskContext)for(let y=42;y<414;y+=12)for(let x=12;x<390;x+=12){
+      if(maskContext.isPointInPath(hoodMask,x,y)&&(!maskContext.isPointInPath(faceMask,x,y)||(x>198&&x<222&&y>190&&y<233)))particles.push({x,y,seed:x*7+y,startX:noise(x+y*3)*width,startY:noise(x*3+y)*height});
+    }
     paint();sync();
   }
   function paint(){
@@ -45,11 +55,28 @@
         }
       }
     }
-    // Start with a visible figure; descend slowly, fade at the edge, then enter again.
+    // Rain gathers into the hood, holds its shape, and disperses. One bounded clock drives both.
     const position=((elapsed/19)+.24)%1;
     const drop=-43+position*(height<300?100:165);
+    const phase=(elapsed+4.2)%15;
+    const smooth=value=>value*value*(3-2*value);
+    const blend=phase<2?0:phase<5?smooth((phase-2)/3):phase<8?1:phase<10?1-smooth((phase-8)/2):0;
     figure.style.transform='translate(-50%,'+drop.toFixed(1)+'px)';
-    figure.style.opacity=String(Math.min(1,position/.14,(1-position)/.15)*.94);
+    const edgeFade=Math.min(1,position/.14,(1-position)/.15);
+    figure.style.opacity=String(edgeFade*.94*(1-blend*.94));
+    const front=layers[1].context;
+    if(front&&blend>0){
+      const scale=figureWidth/400,left=(width-figureWidth)/2;
+      front.font=(height<300?'8':'9')+'px ui-monospace, monospace';
+      for(const particle of particles){
+        const streamY=(particle.startY+elapsed*(24+noise(particle.seed)*24))%(height+50)-25;
+        const x=particle.startX+(left+particle.x*scale-particle.startX)*blend;
+        const y=streamY+(figureTop+drop+particle.y*scale-streamY)*blend;
+        front.fillStyle='rgba(167,215,130,'+(blend*edgeFade*(.5+noise(particle.seed)*.42)).toFixed(3)+')';
+        front.fillText(characters[Math.floor(noise(particle.seed+Math.floor(elapsed))*characters.length)],x,y);
+      }
+      front.font='11px ui-monospace, monospace';
+    }
   }
   function shouldRun(){return visible&&!document.hidden&&!paused&&!reducedMotion&&document.getElementById('missions').classList.contains('active')&&!document.getElementById('overlay').classList.contains('open');}
   function tick(time){

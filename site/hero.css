@@ -23,7 +23,7 @@
 .code-rain-back { z-index:0; opacity:.88; }
 .code-halo { position:absolute; left:12%; top:7%; width:76%; height:64%; background:radial-gradient(ellipse,#78a35e12,transparent 70%); }
 .code-figure { position:absolute; left:50%; top:2px; width:min(90%,350px); height:auto; z-index:1; transform:translate(-50%,12px); filter:drop-shadow(0 0 11px #72975b33); will-change:transform,opacity; }
-.code-rain-front { z-index:2; opacity:.47; }
+.code-rain-front { z-index:2; opacity:.9; }
 .code-coordinate { position:absolute; top:16px; right:14px; text-align:right; color:#abc68f7a; font:7px/1.8 ui-monospace,monospace; letter-spacing:.8px; z-index:3; }
 .code-learning-panel { position:absolute; left:17px; right:17px; bottom:17px; z-index:4; border:1px solid #5b774760; border-top:2px solid #8a354f; border-radius:5px; background:#0b160ff2; padding:15px; box-shadow:0 12px 30px #0005; }
 .code-panel-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:15px; }

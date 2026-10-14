@@ -473,7 +473,7 @@ body{background:#f7f7f2;font-size:15px}a{color:#7b263f;text-underline-offset:4px
 .code-rain-back { z-index:0; opacity:.88; }
 .code-halo { position:absolute; left:12%; top:7%; width:76%; height:64%; background:radial-gradient(ellipse,#78a35e12,transparent 70%); }
 .code-figure { position:absolute; left:50%; top:2px; width:min(90%,350px); height:auto; z-index:1; transform:translate(-50%,12px); filter:drop-shadow(0 0 11px #72975b33); will-change:transform,opacity; }
-.code-rain-front { z-index:2; opacity:.47; }
+.code-rain-front { z-index:2; opacity:.9; }
 .code-coordinate { position:absolute; top:16px; right:14px; text-align:right; color:#abc68f7a; font:7px/1.8 ui-monospace,monospace; letter-spacing:.8px; z-index:3; }
 .code-learning-panel { position:absolute; left:17px; right:17px; bottom:17px; z-index:4; border:1px solid #5b774760; border-top:2px solid #8a354f; border-radius:5px; background:#0b160ff2; padding:15px; box-shadow:0 12px 30px #0005; }
 .code-panel-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:15px; }
@@ -520,6 +520,116 @@ body{background:#f7f7f2;font-size:15px}a{color:#7b263f;text-underline-offset:4px
 }
 @media(max-width:360px) { .hacker-hero .welcome-text { padding:25px 21px; } .hacker-hero h1 { font-size:28px; } .code-scene-bar figcaption { font-size:7px; letter-spacing:.2px; } .code-learning-panel { left:12px; right:12px; padding:12px; } .code-learning-flow { font-size:8px; } .hero-chapters strong { font-size:11px; } }
 @media(prefers-reduced-motion:reduce) { .code-figure { will-change:auto; } }
+
+/* Five connected details: assembling type, request paths, scans, evidence and a learning map. */
+.request-network { margin:0 0 17px; padding:14px 0 16px; border-block:1px solid #ccd6bd; }
+.network-head { display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:13px; }
+.network-head>span { font-size:11px; font-weight:650; color:#394a2d; }
+.network-caption { font-size:10px; color:#657652; text-align:right; }
+.network-route { position:relative; }
+.network-route ol { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); padding:0; margin:0; list-style:none; gap:8px; }
+.network-route li { display:flex; align-items:center; flex-direction:column; gap:5px; min-width:0; }
+.network-icon { position:relative; z-index:1; display:grid; place-items:center; width:44px; height:44px; background:#f8faf3; border:1px solid #b6c5a2; border-radius:9px; box-shadow:0 3px 0 #d9e1cd; color:#617b46; }
+.network-icon .ui-icon { width:19px; height:19px; }
+.network-route strong { color:#3c4b30; font-size:11px; font-weight:600; }
+.network-route small { color:#667656; font:9px/1.6 ui-monospace,monospace; text-align:center; overflow-wrap:anywhere; }
+.network-wire { position:absolute; left:16.666%; right:16.666%; top:22px; height:1px; background:#aebf98; }
+.network-packet { position:absolute; left:calc(16.666% - 4px); top:18px; width:8px; height:8px; border-radius:50%; background:#a14465; box-shadow:0 0 9px #a1446570; z-index:2; opacity:0; pointer-events:none; }
+.request-network[data-outcome="protected"] .network-packet { background:#6d914c; box-shadow:0 0 10px #6d914c80; }
+.request-network[data-outcome="protected"] .network-status { color:#42642b; font-weight:700; }
+.request-network[data-outcome="exposed"] .network-status { color:#8c2949; font-weight:700; }
+.request-network[data-outcome="exposed"] .network-route li:last-child .network-icon { color:#8c2949; border-color:#c191a1; background:#f7e9ee; }
+.request-network[data-outcome="protected"] .network-route li:last-child .network-icon { color:#42642b; border-color:#8da571; background:#e7efda; }
+.scan-surface { position:relative; isolation:isolate; }
+.investigation-beam { position:absolute; left:0; right:0; top:0; height:2px; background:linear-gradient(90deg,transparent,#a64a6b 20%,#d794aa 50%,#a64a6b 80%,transparent); box-shadow:0 -8px 18px #9d3d5826; z-index:8; pointer-events:none; opacity:0; }
+.patch-comparison { margin:21px 0; border:1px solid #c9d5ba; border-radius:7px; background:#f8faf4; overflow:hidden; }
+.patch-comparison>summary { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:13px 15px; cursor:pointer; color:#394a2d; font-size:11px; font-weight:650; border-bottom:1px solid #d4dec6; }
+.patch-comparison>summary::after { content:'⌄'; font-size:14px; color:#7b263f; }
+.patch-comparison>summary small { margin-left:auto; color:#697956; font-size:9px; font-weight:400; }
+.patch-comparison>summary:focus-visible { outline:3px solid #ae5270; outline-offset:-4px; }
+.diff-columns { display:grid; grid-template-columns:1fr 1fr; }
+.diff-column { min-width:0; }
+.diff-column+.diff-column { border-left:1px solid #d4dec6; }
+.diff-column-head { display:flex; align-items:center; justify-content:space-between; padding:13px 14px; gap:8px; font-size:10px; color:#6a3750; }
+.diff-column-head b { font:10px ui-monospace,monospace; color:#687a56; }
+.diff-column:last-child .diff-column-head { color:#456633; }
+.diff-column pre { padding:13px 10px; margin:0; min-height:110px; background:#1c2418; color:#d3dfc5; font:10px/1.9 ui-monospace,monospace; white-space:pre-wrap; overflow-wrap:anywhere; }
+.diff-line { display:grid; grid-template-columns:15px minmax(0,1fr); }
+.diff-line i { font-style:normal; color:#db8ba5; }
+.diff-line.after i { color:#a2c578; }
+.diff-line.is-changed.before { background:#a34a6417; }
+.diff-line.is-changed.after { background:#8daf6b17; }
+.diff-line code { font:inherit; }
+.diff-evidence { padding:13px 14px; font-size:10px; }
+.diff-evidence>span { color:#647651; font-weight:650; }
+.diff-evidence p { font-size:10px; color:#5c6a4d; line-height:1.8; margin:6px 0 0; overflow-wrap:anywhere; max-height:130px; overflow:auto; }
+.diff-input { display:block; margin-top:8px; color:#6b775d; font:9px/1.7 ui-monospace,monospace; white-space:pre-wrap; overflow-wrap:anywhere; max-height:75px; overflow:auto; }
+.diff-evidence[data-outcome="exposed"]>span { color:#8c2949; }
+.diff-evidence[data-outcome="protected"]>span { color:#42642b; }
+.diff-footnote { padding:12px 14px; margin:0!important; border-top:1px solid #d4dec6; font-size:10px; color:#657652; }
+.security-map { margin:34px 0; }
+.security-map>.section-head { margin-bottom:8px; }
+.map-intro { color:#667554; font-size:12px; margin:0 0 17px; }
+.map-workbench { border:1px solid #3d4e31; border-radius:9px; background:#171f14; overflow:hidden; box-shadow:0 4px 0 #d7dfcd; }
+.map-network { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); position:relative; gap:27px 28px; padding:24px; background-image:linear-gradient(#ffffff03 1px,transparent 1px),linear-gradient(90deg,#ffffff03 1px,transparent 1px); background-size:24px 24px; }
+.map-lines { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; stroke:#506b3c; stroke-width:1; fill:none; }
+.map-lines .map-next-line { stroke:#b66681; stroke-width:2; stroke-dasharray:100; }
+.security-map.has-progress .map-lines>path:first-child { stroke:#86a864; }
+.map-lines-mobile { display:none; }
+.map-node { position:relative; z-index:1; display:grid; gap:8px; min-width:0; padding:15px; border:1px solid #435835; background:#202c1b; color:#e0e9d5; border-radius:7px; text-align:left; min-height:100px; transition:background 180ms,border-color 180ms,transform 180ms; }
+.map-node-meta { display:flex; align-items:center; gap:7px; color:#b2c59f; font:9px ui-monospace,monospace; letter-spacing:.7px; }
+.map-node-meta b { margin-left:auto; font-size:9px; font-weight:400; color:#839873; }
+.map-node-meta i { width:5px; height:5px; border-radius:50%; background:#637357; }
+.map-node.has-progress .map-node-meta i { background:#b3d985; box-shadow:0 0 9px #9dc5748f; }
+.map-node strong { font-size:13px; font-weight:600; }
+.map-node-progress { color:#b4c2a6; font-size:10px; }
+.map-node[aria-pressed="true"] { color:#f3e4e9; background:#35202b; border-color:#a35672; box-shadow:0 0 0 3px #9f456220; }
+.map-node.is-next::after { content:'다음 추천'; position:absolute; top:-10px; right:8px; font-size:8px; background:#873650; color:#fff; padding:3px 6px; border-radius:3px; }
+.map-node:hover { background:#2b3b23; border-color:#9bbd79; }
+.map-node[aria-pressed="true"]:hover { background:#482638; border-color:#bf6c8a; }
+@media(hover:hover) and (pointer:fine) { .map-node:hover { transform:translateY(-2px); } }
+.map-node:focus-visible { outline:3px solid #d794aa; outline-offset:4px; }
+.map-footer { display:flex; align-items:center; justify-content:space-between; gap:15px; border-top:1px solid #3d4e31; padding:14px 20px; }
+.map-footer>span { display:flex; align-items:center; gap:7px; font-size:9px; color:#b8c7a7; }
+.map-footer i { width:5px; height:5px; border-radius:50%; background:#a8ce7e; }
+.map-footer>p { color:#e1cad4; font-size:10px; text-align:right; }
+.map-topic-panel { display:grid; grid-template-columns:1fr 1.2fr; gap:24px; padding:24px; border:1px solid #d5dec9; border-top:0; border-radius:0 0 7px 7px; background:#f0f3e9; }
+.map-topic-copy>span { font:9px ui-monospace,monospace; letter-spacing:1px; color:#626f50; }
+.map-topic-copy h3 { font-size:18px; margin:9px 0; color:#3e4e30; }
+.map-topic-copy p { font-size:12px; line-height:1.9; color:#59694a; }
+.map-topic-copy>.btn { margin-top:16px; font-size:11px; padding:9px 12px; }
+.map-topic-missions { display:grid; align-content:start; gap:5px; max-height:235px; overflow:auto; }
+.map-mission { display:flex; align-items:center; gap:9px; text-align:left; border:1px solid #d7dfca; border-radius:4px; padding:10px 11px; background:#fbfcf8; color:#485c36; }
+.map-mission>span { color:#7b263f; font-size:13px; }
+.map-mission>strong { font-size:11px; font-weight:550; flex:1; }
+.map-mission>small { font-size:9px; color:#6d7b5b; }
+.map-mission:hover { border-color:#9fb183; background:#fff; }
+@media(max-width:680px) {
+  .network-head { align-items:start; }
+  .network-head>span { flex:none; }
+  .network-caption { font-size:9px; max-width:66%; }
+  .network-icon { width:36px; height:36px; border-radius:7px; }
+  .network-wire { top:18px; }
+  .network-packet { top:14px; }
+  .network-route strong { font-size:10px; }
+  .network-route small { font-size:8px; }
+  .diff-columns { grid-template-columns:1fr; }
+  .diff-column+.diff-column { border-left:0; border-top:1px solid #d4dec6; }
+  .diff-column pre { min-height:0; }
+  .patch-comparison>summary { font-size:10px; padding:12px; }
+  .patch-comparison>summary small { font-size:8px; }
+  .map-network { grid-template-columns:repeat(2,minmax(0,1fr)); padding:20px; gap:24px 20px; }
+  .map-lines-desktop { display:none; }
+  .map-lines-mobile { display:block; }
+  .map-node { padding:14px 12px; }
+  .map-node strong { font-size:12px; }
+  .map-node-meta { font-size:8px; }
+  .map-footer { flex-direction:column; align-items:start; gap:8px; padding:15px 18px; }
+  .map-footer>p { text-align:left; }
+  .map-topic-panel { grid-template-columns:1fr; gap:20px; padding:21px; }
+  .map-topic-missions { max-height:260px; }
+}
+@media(prefers-reduced-motion:reduce) { .map-node { transition:none; } .map-node:hover { transform:none; } }
 
 /* END_TRACE_MOTION */
 </style>
@@ -1285,7 +1395,7 @@ function advancedMarkup(){
 }
 function wireAdvanced(){
   if(step===2)return;advancedEvidence=null;const generation=lessonGeneration,currentStep=step;
-  const invalidate=()=>{advancedSequence++;advancedEvidence=null;$('#advanced-run').disabled=false;$('#advanced-result').textContent='입력이 변경됐습니다. 다시 실행해 주세요.';updateCoach();};
+  const invalidate=()=>{advancedSequence++;advancedEvidence=null;$('#advanced-run').disabled=false;delete $('#advanced-result').traceExecution;$('#advanced-result').textContent='입력이 변경됐습니다. 다시 실행해 주세요.';updateCoach();};
   $('#advanced-request').oninput=invalidate;
   if($('#advanced-patch'))$('#advanced-patch').onchange=invalidate;
   for(const [id,key] of [['advanced-normal','normal'],['advanced-example','exploit']])$('#'+id).onclick=()=>{$('#advanced-request').value=advancedSpec(mission.id,pendingAttempt?.seed||1)[key];invalidate();};
@@ -1297,6 +1407,7 @@ function wireAdvanced(){
       if(generation!==lessonGeneration||currentStep!==step||sequence!==advancedSequence)return;
       if(!result)throw new Error('lab.local의 제공된 요청 형식을 확인해 주세요.');
       advancedEvidence={request,patch,...(result.evidenceId?{evidenceId:result.evidenceId}:{})};
+      $('#advanced-result').traceExecution={request,patch,result};
       $('#advanced-result').innerHTML=`<div class="http-status"><strong>${result.status}</strong><span>${result.blocked?'수정한 처리가 요청을 제한했습니다.':result.exposed?'실습의 빈틈이 재현됐습니다.':'정상 처리 또는 접근 거부 결과입니다.'}</span></div><h3>응답 본문</h3><pre>${escapeHtml(result.data)}</pre><h3>처리 기록</h3><ol>${result.trace.map(line=>`<li>${escapeHtml(line)}</li>`).join('')}</ol><small>${online?'서버가 실행 증거를 기록했습니다.':'브라우저에서 원리 모형을 실행했습니다. 랭크 점수로 저장하지 않습니다.'}</small>`;
     }catch(error){if(generation===lessonGeneration&&currentStep===step&&sequence===advancedSequence)$('#advanced-result').textContent=error.message;}
     finally{if(generation===lessonGeneration&&currentStep===step&&sequence===advancedSequence&&$('#advanced-run')){$('#advanced-run').disabled=false;updateCoach();}}
@@ -1439,6 +1550,7 @@ function labWireExecutions(){
     button.onclick=async function(event){
       const result=$('#'+resultId),before=result?.innerHTML;
       const bench=button.closest('.request-workbench,.scenario-lab,.sql-demo,.reverse-lab');
+      const experience=window.TraceExperience?.begin(buttonId,bench,result);
       labPendingOperations++;bench?.classList.add('is-running');button.setAttribute('aria-busy','true');labSyncState();
       try{return await handler.call(this,event);}
       finally{
@@ -1448,6 +1560,7 @@ function labWireExecutions(){
           labEnter(result);
           [...result.querySelectorAll('li')].slice(0,6).forEach((line,index)=>labEnter(line,30+index*35));
         }
+        window.TraceExperience?.finish(experience,result);
       }
     };
   }
@@ -1495,6 +1608,9 @@ if($('#overlay').classList.contains('open'))labDecorateLesson();
   // Share the same live preference object as lesson motion and its cancellation listener.
   const preference=labMotionPreference;
   const characters='01ABCDEF{}[]<>/?:=+_';
+  const hoodMask=new Path2D('M200 38C157 40 128 73 108 116L76 210L91 250C45 264 21 309 10 412H390C379 309 355 264 309 250L324 210L292 116C272 73 243 40 200 38Z');
+  const faceMask=new Path2D('M200 76C166 86 140 123 124 159L109 214L150 250L200 280L250 250L291 214L276 159C260 123 234 86 200 76Z');
+  let particles=[],figureWidth=0,figureTop=0;
   let width=0,height=0,elapsed=0,previousTime=0,frame=0,visible=false,paused=false,reducedMotion=preference.matches;
   const layers=['back','front'].map(name=>{
     const canvas=document.getElementById('code-rain-'+name);
@@ -1515,6 +1631,13 @@ if($('#overlay').classList.contains('open'))labDecorateLesson();
         speed:(layer.front?25:33)+noise(index+5)*35,length:8+Math.floor(noise(index+17)*13),offset:noise(index+47)*(height+350)
       }));
     }
+    figureWidth=figure.getBoundingClientRect().width;
+    figureTop=parseFloat(getComputedStyle(figure).top)||0;
+    particles=[];
+    const maskContext=document.createElement('canvas').getContext('2d');
+    if(maskContext)for(let y=42;y<414;y+=12)for(let x=12;x<390;x+=12){
+      if(maskContext.isPointInPath(hoodMask,x,y)&&(!maskContext.isPointInPath(faceMask,x,y)||(x>198&&x<222&&y>190&&y<233)))particles.push({x,y,seed:x*7+y,startX:noise(x+y*3)*width,startY:noise(x*3+y)*height});
+    }
     paint();sync();
   }
   function paint(){
@@ -1533,11 +1656,28 @@ if($('#overlay').classList.contains('open'))labDecorateLesson();
         }
       }
     }
-    // Start with a visible figure; descend slowly, fade at the edge, then enter again.
+    // Rain gathers into the hood, holds its shape, and disperses. One bounded clock drives both.
     const position=((elapsed/19)+.24)%1;
     const drop=-43+position*(height<300?100:165);
+    const phase=(elapsed+4.2)%15;
+    const smooth=value=>value*value*(3-2*value);
+    const blend=phase<2?0:phase<5?smooth((phase-2)/3):phase<8?1:phase<10?1-smooth((phase-8)/2):0;
     figure.style.transform='translate(-50%,'+drop.toFixed(1)+'px)';
-    figure.style.opacity=String(Math.min(1,position/.14,(1-position)/.15)*.94);
+    const edgeFade=Math.min(1,position/.14,(1-position)/.15);
+    figure.style.opacity=String(edgeFade*.94*(1-blend*.94));
+    const front=layers[1].context;
+    if(front&&blend>0){
+      const scale=figureWidth/400,left=(width-figureWidth)/2;
+      front.font=(height<300?'8':'9')+'px ui-monospace, monospace';
+      for(const particle of particles){
+        const streamY=(particle.startY+elapsed*(24+noise(particle.seed)*24))%(height+50)-25;
+        const x=particle.startX+(left+particle.x*scale-particle.startX)*blend;
+        const y=streamY+(figureTop+drop+particle.y*scale-streamY)*blend;
+        front.fillStyle='rgba(167,215,130,'+(blend*edgeFade*(.5+noise(particle.seed)*.42)).toFixed(3)+')';
+        front.fillText(characters[Math.floor(noise(particle.seed+Math.floor(elapsed))*characters.length)],x,y);
+      }
+      front.font='11px ui-monospace, monospace';
+    }
   }
   function shouldRun(){return visible&&!document.hidden&&!paused&&!reducedMotion&&document.getElementById('missions').classList.contains('active')&&!document.getElementById('overlay').classList.contains('open');}
   function tick(time){
@@ -1567,6 +1707,188 @@ if($('#overlay').classList.contains('open'))labDecorateLesson();
   if(typeof ResizeObserver==='function')new ResizeObserver(resize).observe(atmosphere);
   else window.addEventListener('resize',resize);
   resize();
+})();
+
+// Visual evidence comes from the existing execution, never a second request or a guessed score.
+(()=>{
+  let samples=new Map(),sampleGeneration=-1;
+  const safe=escapeHtml;
+  const outcomeLabels={normal:'정상 처리',exposed:'빈틈 재현',protected:'방어 확인',error:'실행 확인 필요'};
+  function session(){if(sampleGeneration!==lessonGeneration){samples=new Map();sampleGeneration=lessonGeneration;}}
+  function addNetwork(bench){
+    const existing=bench.querySelector('.lab-execution');if(!existing)return;
+    existing.className='request-network';existing.removeAttribute('aria-hidden');
+    existing.innerHTML='<div class="network-head"><span>요청의 이동</span><small class="network-caption">입력을 바꾼 뒤 실행해 보세요</small></div><div class="network-route"><div class="network-wire"></div><i class="network-packet" aria-hidden="true"></i><ol><li><span class="network-icon">'+iconSvg('lab')+'</span><strong>내 브라우저</strong><small>입력한 요청</small></li><li><span class="network-icon">'+iconSvg('shield')+'</span><strong>실습 서버</strong><small>규칙으로 판단</small></li><li><span class="network-icon">'+iconSvg('guide')+'</span><strong>돌아온 응답</strong><small class="network-status">실행 전</small></li></ol></div>';
+    const invalidate=()=>{
+      existing.dataset.outcome='idle';existing.querySelector('.network-caption').textContent='입력이 바뀌었습니다. 다시 실행해 보세요';existing.querySelector('.network-status').textContent='실행 전';
+      for(const animation of labMotionAnimations)if(animation.effect?.target===existing.querySelector('.network-packet')){animation.cancel();labMotionAnimations.delete(animation);}
+    };
+    bench.querySelectorAll('input,textarea,select').forEach(control=>control.addEventListener(control.tagName==='SELECT'?'change':'input',invalidate));
+    bench.querySelectorAll('#advanced-normal,#advanced-example,#scenario-example,#sql-payload,#reverse-hint').forEach(control=>control.addEventListener('click',invalidate));
+    return existing;
+  }
+  function flight(network,from,to,duration){
+    const packet=network?.querySelector('.network-packet');if(!packet)return;
+    const distance=network.querySelector('.network-route').clientWidth*2/3;
+    labAnimate(packet,[{opacity:1,transform:'translateX('+(distance*from)+'px)'},{opacity:1,offset:.85,transform:'translateX('+(distance*to)+'px)'},{opacity:0,transform:'translateX('+(distance*to)+'px)'}],{duration,easing:'ease-in-out'});
+  }
+  function snapshot(buttonId){
+    if(buttonId==='advanced-run')return {kind:'advanced',input:$('#advanced-request').value,patch:$('#advanced-patch')?.value||'none',sequence:advancedSequence+1};
+    if(buttonId==='scenario-run')return {kind:'scenario',input:$('#scenario-input').value,patch:$('#scenario-patch')?.value||'none',sequence:scenarioSequence+1};
+    if(buttonId==='sql-unsafe'||buttonId==='sql-safe')return {kind:'sql',input:$('#sql-input').value,patch:buttonId==='sql-safe'?'parameter':'none',sequence:sqlSequence+1};
+    return {kind:'other'};
+  }
+  function begin(buttonId,bench,result){
+    if(!bench)return null;
+    const network=bench.querySelector('.request-network');if(!network)return null;
+    const ticket={...snapshot(buttonId),network,result,generation:lessonGeneration,epoch:labRenderEpoch,step,id:mission.id,started:performance.now(),before:result?.innerHTML};
+    network.dataset.outcome='pending';network.querySelector('.network-caption').textContent='요청을 보내고 처리 결과를 기다립니다';network.querySelector('.network-status').textContent='처리 중';
+    flight(network,0,.5,330);return ticket;
+  }
+  function readResult(ticket,result){
+    if(ticket.kind==='advanced'){
+      const execution=result.traceExecution;
+      if(advancedSequence!==ticket.sequence||!execution||execution.request!==ticket.input||execution.patch!==ticket.patch||!advancedEvidence)return null;
+      const sql=execution.result.sql;
+      return {input:ticket.input,patch:ticket.patch,status:String(execution.result.status),outcome:execution.result.blocked?'protected':execution.result.exposed?'exposed':'normal',data:execution.result.data,code:sql?sql.query+(sql.params?.length?'\n값: '+JSON.stringify(sql.params):''):null,trace:execution.result.trace};
+    }
+    if(ticket.kind==='scenario'){
+      const status=result.querySelector('.scenario-status');
+      if(scenarioSequence!==ticket.sequence||!status||scenarioEvidence?.input!==ticket.input||scenarioEvidence?.patch!==ticket.patch)return null;
+      return {input:ticket.input,patch:ticket.patch,status:status.querySelector('strong').textContent,outcome:status.classList.contains('protected')?'protected':status.classList.contains('exposed')?'exposed':'normal',data:result.querySelector('p')?.textContent||'',code:$('#scenario-code').textContent};
+    }
+    if(ticket.kind==='sql'){
+      if(sqlSequence!==ticket.sequence||!result.querySelector('.sql-row-results'))return null;
+      const summary=result.querySelector('strong').textContent;
+      return {input:ticket.input,patch:ticket.patch,status:summary.split(' · ')[0],outcome:ticket.patch==='parameter'?'protected':'normal',data:summary,code:$('#sql-query').textContent};
+    }
+    if(result.innerHTML===ticket.before)return null;
+    return {status:'실행 완료',outcome:'normal',data:result.textContent};
+  }
+  function finish(ticket,result){
+    if(!ticket||!result?.isConnected||ticket.generation!==lessonGeneration||ticket.epoch!==labRenderEpoch)return;
+    const sequence=ticket.kind==='advanced'?advancedSequence:ticket.kind==='scenario'?scenarioSequence:ticket.kind==='sql'?sqlSequence:null;
+    if(ticket.sequence!==undefined&&ticket.sequence!==sequence)return;
+    if(ticket.kind==='sql'&&$('#sql-input').value!==ticket.input)return;
+    const data=readResult(ticket,result),network=ticket.network;
+    if(!data){network.dataset.outcome='idle';network.querySelector('.network-caption').textContent='입력과 실행 결과를 다시 확인해 주세요';network.querySelector('.network-status').textContent='확인 필요';return;}
+    network.dataset.outcome=data.outcome;network.querySelector('.network-caption').textContent=outcomeLabels[data.outcome]+' · 실행 결과가 도착했습니다';network.querySelector('.network-status').textContent=data.status;
+    flight(network,performance.now()-ticket.started<240?0:.5,1,performance.now()-ticket.started<240?560:330);
+    session();
+    if(ticket.kind==='advanced'||ticket.kind==='scenario'||ticket.kind==='sql'){
+      const group=samples.get(ticket.id)||{};
+      if(ticket.patch==='none')group.before=data;else group.after=data;
+      samples.set(ticket.id,group);renderComparison(network.closest('.request-workbench,.scenario-lab,.sql-demo'),ticket.kind);
+    }
+  }
+  const advancedCode={
+    27:['document = find(request.id);\nreturn document;','document = find(request.id);\nrequire(document.owner === session.user);\nreturn document;'],
+    28:['query = "WHERE name = \'" + input + "\'";\nexecute(query);','query = "WHERE name = ?";\nexecute(query, [input]);'],
+    29:['role = request.headers["X-Role"];\nrequire(role === "admin");','role = session.serverRole;\nrequire(role === "admin");'],
+    30:['for (request of burst) {\n  checkPassword(request);\n}','for (request of burst) {\n  require(attempts < 3);\n  checkPassword(request);\n}']
+  };
+  function codeFor(kind){
+    if(kind==='scenario'){const spec=scenarioSpec(mission.id,pendingAttempt?.seed||1);return [spec.code,spec.fixed];}
+    if(kind==='advanced')return advancedCode[mission.id];
+    return ['query = "WHERE name = \'" + input + "\'";','query = "WHERE name = ?";\nexecute(query, [input]);'];
+  }
+  function codeLines(code,kind,other){const otherLines=String(other).split('\n');return String(code).split('\n').map(line=>{const changed=!otherLines.includes(line);return '<span class="diff-line '+kind+(changed?' is-changed':'')+'"><i aria-hidden="true">'+(changed?(kind==='before'?'−':'+'):' ')+'</i><code>'+safe(line)+'</code></span>';}).join('');}
+  function renderComparison(bench,kind,animate=true){
+    const panel=bench?.querySelector('.patch-comparison');if(!panel)return;
+    const records=samples.get(mission.id)||{},codes=codeFor(kind);
+    const selected=kind==='advanced'?$('#advanced-patch')?.value:kind==='scenario'?$('#scenario-patch')?.value:records.after?.patch;
+    const correct=kind==='advanced'?advancedSpec(mission.id,pendingAttempt?.seed||1).patch:kind==='scenario'?scenarioSpec(mission.id,pendingAttempt?.seed||1).patch:'parameter';
+    const applied=selected===correct;
+    const currentInput=kind==='advanced'?$('#advanced-request')?.value:kind==='scenario'?$('#scenario-input')?.value:$('#sql-input')?.value;
+    const after=records.after&&records.after.patch===selected&&records.after.input===currentInput?records.after:null;
+    const afterCode=applied?codes[1]:selected==='cosmetic'?'hideButton();\n// 서버의 검사는 그대로':codes[0];
+    const beforeCode=records.before?.code||codes[0],currentAfterCode=after?.code||afterCode;
+    const column=(label,code,data,side,other)=>'<section class="diff-column"><div class="diff-column-head"><span>'+label+'</span><b>'+(!data?'실행 전':safe(data.status))+'</b></div><pre>'+codeLines(code,side,other)+'</pre><div class="diff-evidence" data-outcome="'+(data?.outcome||'idle')+'"><span>'+(!data?'아직 관찰한 결과가 없습니다':outcomeLabels[data.outcome])+'</span><p>'+safe(data?.data||'직접 실행한 응답이 여기에 남습니다.')+'</p>'+(data?.input?'<small class="diff-input">관찰한 입력: '+safe(data.input)+'</small>':'')+'</div></section>';
+    const note=after?(records.before&&records.before.input!==after.input?'서로 다른 입력의 결과입니다. 같은 입력으로 실행하면 방어 효과를 더 정확하게 비교할 수 있습니다.':'위 결과는 직접 실행한 요청에서 가져왔습니다.'):applied?'방어 처리를 선택했습니다. 같은 입력으로 실행해 결과를 비교하세요.':'처리 원리를 비교하는 화면입니다. 방어 처리를 선택한 뒤 직접 실행하세요.';
+    const next='<div class="diff-columns">'+column('수정 전',beforeCode,records.before,'before',currentAfterCode)+column('수정 후',currentAfterCode,after,'after',beforeCode)+'</div><p class="diff-footnote">'+note+'</p>';
+    const content=panel.querySelector('.diff-content');if(content.innerHTML!==next){content.innerHTML=next;if(animate)labEnter(content);}
+  }
+  function addComparison(bench,kind){
+    if(kind!=='sql'&&step!==1)return;
+    const panel=document.createElement('details');panel.className='patch-comparison';panel.open=true;
+    panel.innerHTML='<summary><span>수정 전 · 후를 나란히 보기</span><small>'+(kind==='scenario'?'검사할 코드':kind==='sql'?'SQL 실행 비교':'처리 원리 요약')+'</small></summary><div class="diff-content"></div>';
+    const control=bench.querySelector('#advanced-patch,#scenario-patch,.sql-actions');
+    if(control)control.after(panel);else bench.append(panel);
+    const old=bench.querySelector('.scenario-code');if(old)old.hidden=true;
+    renderComparison(bench,kind);
+    if(control?.tagName==='SELECT')control.addEventListener('change',()=>renderComparison(bench,kind));
+    bench.querySelector('#advanced-request,#scenario-input,#sql-input')?.addEventListener('input',()=>renderComparison(bench,kind,false));
+    bench.querySelectorAll('#advanced-normal,#advanced-example,#scenario-example,#sql-payload').forEach(button=>button.addEventListener('click',()=>renderComparison(bench,kind,false)));
+  }
+  function scan(surface){
+    if(!surface||labMotionPreference.matches)return;
+    surface.classList.add('scan-surface');
+    const beam=document.createElement('span');beam.className='investigation-beam';beam.setAttribute('aria-hidden','true');surface.append(beam);
+    labAnimate(beam,[{opacity:0,transform:'translateY(0)'},{opacity:.8,offset:.2},{opacity:.65,offset:.8},{opacity:0,transform:'translateY('+Math.max(0,surface.clientHeight-3)+'px)'}],{duration:760,delay:80,easing:'ease-in-out'});
+  }
+  function decorate(){
+    if(phase!=='challenge')return;session();
+    for(const bench of $('#lesson-body').querySelectorAll('.request-workbench,.scenario-lab,.sql-demo,.reverse-lab')){
+      addNetwork(bench);
+      if(bench.matches('.request-workbench'))addComparison(bench,'advanced');
+      if(bench.matches('.scenario-lab'))addComparison(bench,'scenario');
+      if(bench.matches('.sql-demo'))addComparison(bench,'sql');
+    }
+    const surface=$('#lesson-body').querySelector('.request-workbench,.scenario-lab,.sql-demo,.reverse-lab,.email,.browser-window,.terminal,.poster,.social-post,.permissions,.options')||$('.lab-stage');
+    scan(surface);
+  }
+  window.TraceExperience={begin,finish};
+  const original=renderLesson;renderLesson=function(){original();decorate();};
+  document.addEventListener('click',event=>{
+    const target=event.target.closest('.inspect,[data-line],[data-history],[data-redact]');
+    if(target&&$('#overlay').classList.contains('open')&&!passed)labAnimate(target,[{boxShadow:'inset 3px 0 #a4516b',backgroundColor:'#f2dce4'},{boxShadow:'inset 0 0 transparent',backgroundColor:getComputedStyle(target).backgroundColor}],{duration:480});
+  });
+  if($('#overlay').classList.contains('open'))decorate();
+
+  // Six topics cover every mission once. Lines describe relationships, not prerequisites.
+  const topics=[
+    {id:'account',label:'인증과 계정',short:'AUTH',ids:[0,6,7,24],text:'비밀번호와 추가 인증으로 계정의 주인을 확인합니다.'},
+    {id:'clues',label:'단서와 개인정보',short:'TRACE',ids:[1,4,5,8,9,10,11,15,16,18],text:'주소·메시지·권한·파일을 관찰하며 믿을 수 있는 단서를 찾습니다.'},
+    {id:'program',label:'코드와 실행',short:'CODE',ids:[3,12,13,14,19,20],text:'값과 명령을 바꾸고 프로그램의 동작과 검증 과정을 확인합니다.'},
+    {id:'input',label:'SQL과 입력',short:'SQL',ids:[2,28],text:'입력을 명령과 구별하고 검색 조건이 바뀌는 이유를 배웁니다.'},
+    {id:'request',label:'HTTP와 요청',short:'HTTP',ids:[17,22,23,25,26],text:'주소·출처·경로·외부 입력을 확인하고 요청을 안전하게 처리합니다.'},
+    {id:'server',label:'권한과 서버',short:'SERVER',ids:[21,27,29,30],text:'소유자·역할·반복 시도를 검사해 서버가 허용할 일을 결정합니다.'}
+  ];
+  const map=document.createElement('section');map.className='security-map';map.id='security-map';map.setAttribute('aria-labelledby','security-map-title');
+  map.innerHTML='<div class="section-head"><h2 id="security-map-title">보안 학습 지도</h2><span id="security-map-count"></span></div><p class="map-intro">주제를 눌러 실습을 살펴보세요. 원하는 순서로 시작해도 괜찮아요.</p><div class="map-workbench"><div class="map-network"><svg class="map-lines map-lines-desktop" viewBox="0 0 600 240" preserveAspectRatio="none" aria-hidden="true"><path d="M100 60H300H500V180H300H100"/><path class="map-next-line" d="M100 60H300H500V180H300H100" pathLength="100"/></svg><svg class="map-lines map-lines-mobile" viewBox="0 0 600 360" preserveAspectRatio="none" aria-hidden="true"><path d="M150 60H450V180H150V300H450"/><path class="map-next-line" d="M150 60H450V180H150V300H450" pathLength="100"/></svg>'+topics.map((topic,index)=>'<button class="map-node" type="button" data-map-topic="'+topic.id+'" aria-pressed="false" aria-controls="map-topic-panel"><span class="map-node-meta"><i aria-hidden="true"></i>'+topic.short+'<b>'+String(index+1).padStart(2,'0')+'</b></span><strong>'+topic.label+'</strong><small class="map-node-progress">0 / '+topic.ids.length+'개 완료</small></button>').join('')+'</div><div class="map-footer"><span><i aria-hidden="true"></i>완료한 실습이 있는 주제</span><p id="map-next-note"></p></div></div><section class="map-topic-panel" id="map-topic-panel" aria-labelledby="map-topic-title"></section>';
+  $('.starter-path').after(map);
+  map.querySelector('.map-lines-desktop>path').setAttribute('d','M100 60H300H500V120H100V180H300H500');
+  map.querySelector('.map-lines-mobile>path').setAttribute('d','M150 60H450V120H150V180H450V240H150V300H450');
+  let selected=null,lastSignature='',previousNext=null;
+  function renderMap(force=false){
+    const completed=new Set(state.completed),next=learningOrder.find(id=>!completed.has(id));
+    selected??=topics.find(topic=>topic.ids.includes(next))?.id||topics[0].id;
+    const signature=[...completed].sort((a,b)=>a-b).join(',')+'|'+selected;
+    if(signature===lastSignature&&!force)return;lastSignature=signature;
+    const total=missions.filter(item=>completed.has(item.id)).length;
+    $('#security-map-count').textContent=total+' / 31개 완료';
+    $('#map-next-note').textContent=next===undefined?'모든 실습을 완료했습니다. 관심 있는 주제를 다시 살펴보세요.':'다음 추천 · '+shortTitles[next];
+    const nextTopicIndex=topics.findIndex(topic=>topic.ids.includes(next));
+    const desktopSegments=['M100 60h0','M100 60H300','M300 60H500','M500 60V120H100V180','M100 180H300','M300 180H500'];
+    const mobileSegments=['M150 60h0','M150 60H450','M450 60V120H150V180','M150 180H450','M450 180V240H150V300','M150 300H450'];
+    for(const [selector,segments] of [['.map-lines-desktop',desktopSegments],['.map-lines-mobile',mobileSegments]]){
+      const line=map.querySelector(selector+' .map-next-line');line.setAttribute('d',segments[nextTopicIndex]||'M0 0');
+      if(previousNext!==next&&total>0)labAnimate(line,[{strokeDashoffset:100},{strokeDashoffset:0}],{duration:650});
+    }
+    previousNext=next;
+    for(const topic of topics){
+      const node=map.querySelector('[data-map-topic="'+topic.id+'"]'),count=topic.ids.filter(id=>completed.has(id)).length;
+      const changed=node.dataset.count!==String(count);
+      node.dataset.count=String(count);node.classList.toggle('has-progress',count>0);node.classList.toggle('is-next',topic.ids.includes(next));node.setAttribute('aria-pressed',String(selected===topic.id));node.setAttribute('aria-label',topic.label+' · '+count+' / '+topic.ids.length+'개 완료');node.querySelector('.map-node-progress').textContent=count+' / '+topic.ids.length+'개 완료';
+      if(changed&&count>0)labAnimate(node,[{boxShadow:'0 0 0 5px #91b36c44'},{boxShadow:'0 0 0 0 #91b36c00'}],{duration:650});
+    }
+    const topic=topics.find(item=>item.id===selected),nextTopic=topic.ids.find(id=>!completed.has(id));
+    $('#map-topic-panel').innerHTML='<div class="map-topic-copy"><span>'+topic.short+' / LEARNING PATH</span><h3 id="map-topic-title">'+topic.label+'</h3><p>'+topic.text+'</p><button class="btn" data-mission="'+(nextTopic??topic.ids[0])+'">'+(nextTopic===undefined?'다시 연습하기':'이 주제 시작하기')+' →</button></div><div class="map-topic-missions">'+topic.ids.map(id=>'<button data-mission="'+id+'" class="map-mission"><span aria-hidden="true">'+(completed.has(id)?'✓':'↗')+'</span><strong>'+safe(shortTitles[id])+'</strong><small>'+ (completed.has(id)?'완료':'실습')+'</small></button>').join('')+'</div>';
+    map.classList.toggle('has-progress',total>0);
+  }
+  map.addEventListener('click',event=>{const node=event.target.closest('[data-map-topic]');if(!node)return;selected=node.dataset.mapTopic;renderMap();labEnter($('#map-topic-panel'));});
+  const originalDashboard=renderStudyDashboard;renderStudyDashboard=function(){originalDashboard();renderMap();};
+  renderMap();
 })();
 
 </script>

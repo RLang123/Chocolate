@@ -17,7 +17,7 @@ function advancedMarkup(){
 }
 function wireAdvanced(){
   if(step===2)return;advancedEvidence=null;const generation=lessonGeneration,currentStep=step;
-  const invalidate=()=>{advancedSequence++;advancedEvidence=null;$('#advanced-run').disabled=false;$('#advanced-result').textContent='입력이 변경됐습니다. 다시 실행해 주세요.';updateCoach();};
+  const invalidate=()=>{advancedSequence++;advancedEvidence=null;$('#advanced-run').disabled=false;delete $('#advanced-result').traceExecution;$('#advanced-result').textContent='입력이 변경됐습니다. 다시 실행해 주세요.';updateCoach();};
   $('#advanced-request').oninput=invalidate;
   if($('#advanced-patch'))$('#advanced-patch').onchange=invalidate;
   for(const [id,key] of [['advanced-normal','normal'],['advanced-example','exploit']])$('#'+id).onclick=()=>{$('#advanced-request').value=advancedSpec(mission.id,pendingAttempt?.seed||1)[key];invalidate();};
@@ -29,6 +29,7 @@ function wireAdvanced(){
       if(generation!==lessonGeneration||currentStep!==step||sequence!==advancedSequence)return;
       if(!result)throw new Error('lab.local의 제공된 요청 형식을 확인해 주세요.');
       advancedEvidence={request,patch,...(result.evidenceId?{evidenceId:result.evidenceId}:{})};
+      $('#advanced-result').traceExecution={request,patch,result};
       $('#advanced-result').innerHTML=`<div class="http-status"><strong>${result.status}</strong><span>${result.blocked?'수정한 처리가 요청을 제한했습니다.':result.exposed?'실습의 빈틈이 재현됐습니다.':'정상 처리 또는 접근 거부 결과입니다.'}</span></div><h3>응답 본문</h3><pre>${escapeHtml(result.data)}</pre><h3>처리 기록</h3><ol>${result.trace.map(line=>`<li>${escapeHtml(line)}</li>`).join('')}</ol><small>${online?'서버가 실행 증거를 기록했습니다.':'브라우저에서 원리 모형을 실행했습니다. 랭크 점수로 저장하지 않습니다.'}</small>`;
     }catch(error){if(generation===lessonGeneration&&currentStep===step&&sequence===advancedSequence)$('#advanced-result').textContent=error.message;}
     finally{if(generation===lessonGeneration&&currentStep===step&&sequence===advancedSequence&&$('#advanced-run')){$('#advanced-run').disabled=false;updateCoach();}}
