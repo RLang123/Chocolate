@@ -313,6 +313,142 @@ body{background:#f7f7f2;font-size:15px}a{color:#7b263f;text-underline-offset:4px
 @media(max-width:760px){.topbar{height:92px}.sidebar{background:#20241df5;box-shadow:none}.nav button.active{background:#7b263f;box-shadow:none}.welcome.lab-hero.editorial-hero{padding:27px 23px;border-radius:5px;gap:20px}.welcome h1{font-size:30px}.welcome p{font-size:13px}.course-index{gap:17px}.course-index strong{font-size:12px}.course-index span{font-size:8px}.starter-grid strong{font-size:14px}.starter-grid small{font-size:12px}.mission-card,.panel,.study-next,.study-learned{border-radius:6px}.mission-card{padding:21px}.rank-mode{padding:22px}.rank-mode p{font-size:13px}.dictionary-toolbar{gap:13px}.dictionary-toolbar label:first-child{flex-basis:100%}.request-workbench{padding:18px}.request-editor{font-size:11px;min-height:190px}.request-workbench>header{font-size:9px}.request-response{padding:16px}.http-status{align-items:flex-start;font-size:12px}.glossary-entry h2{font-size:18px}.glossary-entry p{font-size:13px}}
 @media(max-width:360px){.welcome h1{font-size:27px}.course-index strong{font-size:11px}.rank-mode{padding:19px}.request-workbench{padding:15px}.dictionary-toolbar select{min-width:140px}}
 
+/* TRACE_MOTION */
+/* A quiet site outside; a focused, tactile lab inside. */
+:root { --motion-ease: cubic-bezier(.22,.8,.28,1); }
+.btn,.filter,.nav button,.option,.starter-grid button,.mission-card,.course-index a {
+  transition: background-color 160ms, border-color 160ms, box-shadow 220ms, transform 220ms var(--motion-ease);
+}
+.bar-fill { transition: width 420ms var(--motion-ease); }
+.btn:active:not(:disabled),.option:active:not(:disabled) { transform: translateY(1px) scale(.985); }
+.course-index a { position:relative; padding-left:0; }
+.course-index a::before { content:''; position:absolute; left:-10px; top:5px; width:2px; height:0; background:#7b263f; transition:height 180ms; }
+.course-index a:focus-visible::before { height:30px; }
+@media (hover:hover) and (pointer:fine) {
+  .mission-card:hover,.starter-grid button:hover { transform:translateY(-3px); border-color:#a8b393; box-shadow:0 8px 20px #2028170f; }
+  .mission-card:hover .launch { color:#7b263f; transform:translateX(3px); }
+  .course-index a:hover { transform:translateX(3px); }
+  .course-index a:hover::before { height:30px; }
+}
+.launch { transition:color 160ms,transform 180ms; }
+.nav button.active:hover { background:#8b2e4b; }
+
+/* The frame gives context. Reading and interaction surfaces stay bright. */
+.modal-backdrop { background:#10150ee0; backdrop-filter:blur(8px); padding:24px; }
+.modal.lab-console { width:min(1120px,100%); padding:0; border:1px solid #555c4b; border-radius:14px; background:#eceee7; box-shadow:0 32px 100px #0007,0 1px 0 #ffffff24 inset; max-height:94dvh; isolation:isolate; scroll-padding:90px 0 110px; }
+.lab-console .modal-head { background:#20251d; color:#e8eddf; padding:18px 25px; border-bottom:1px solid #424a36; z-index:4; }
+.lab-console .close { background:#2b3323; color:#e8eddf; border:1px solid #515d40; border-radius:6px; }
+.lab-console .modal-progress small { color:#c0c9b1; font-size:11px; }
+.lab-console .modal-progress .bar { background:#3c4431; height:5px; }
+.lab-console .modal-progress .bar-fill { background:#c16b85; box-shadow:0 0 12px #b3547360; }
+.lab-console .modal-heart { color:#e9b4c2; font:12px ui-monospace,monospace; }
+.lab-banner { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:23px 30px 19px; background:#20251d; color:#eef1e7; }
+.lab-banner small { display:block; font:10px ui-monospace,monospace; letter-spacing:1.5px; color:#bbc6a7; margin-bottom:8px; }
+.lab-banner strong { display:block; font-size:19px; font-weight:650; line-height:1.5; }
+.lab-state { display:flex; align-items:center; gap:8px; white-space:nowrap; color:#c5cfb6; font:11px ui-monospace,monospace; }
+.lab-state::before { content:''; width:6px; height:6px; border-radius:50%; background:#bac9a1; box-shadow:0 0 0 4px #bac9a111; }
+.lab-console[data-lab-state="running"] .lab-state::before { background:#e4bbc7; }
+.lab-console[data-lab-state="verified"] .lab-state::before { background:#b7d098; }
+.lab-flow { display:flex; list-style:none; gap:0; margin:0; padding:0 30px 22px; background:#20251d; color:#919b81; }
+.lab-flow li { display:flex; gap:8px; align-items:center; font-size:11px; }
+.lab-flow li+li::before { content:''; width:clamp(16px,5vw,64px); height:1px; background:#465039; margin:0 12px; }
+.lab-flow b { display:grid; place-items:center; width:21px; height:21px; border:1px solid #536044; border-radius:50%; font:10px ui-monospace,monospace; }
+.lab-flow li[aria-current="step"] { color:#f4d4de; }
+.lab-flow li[aria-current="step"] b { background:#7b263f; border-color:#b45673; box-shadow:0 0 0 4px #b4567319; }
+.lab-flow .is-done { color:#c6d3b3; }
+.lab-console .lesson-body { padding:30px; min-height:360px; }
+.lab-console .lesson-body>.eyebrow { color:#626b46; font:10px ui-monospace,monospace; }
+.lab-console .lesson-body h2 { font-weight:680; font-size:26px; line-height:1.5; letter-spacing:-.7px; }
+.lab-console .lesson-body p { line-height:1.9; }
+.lab-console .lesson-body.lab-workspace { display:grid; grid-template-columns:235px minmax(0,1fr); padding:0; align-items:start; gap:0; }
+.lab-guide { padding:27px 22px; min-width:0; align-self:stretch; border-right:1px solid #d2d9c5; background:#e4e9da; }
+.lab-guide>.eyebrow { font:10px/1.9 ui-monospace,monospace; color:#536143; letter-spacing:1px; margin-bottom:22px; }
+.lab-guide .step-instructions { margin:0; padding:0; border:0; border-radius:0; background:none; }
+.lab-guide .step-instructions strong { color:#3c4b2e; font-size:12px; }
+.lab-guide .step-instructions p { font-size:13px; color:#394530; margin:12px 0; }
+.lab-guide .step-instructions small { display:block; color:#566447; font-size:11px; padding-top:12px; border-top:1px solid #cbd4bd; }
+.lab-guide .tech-pill { margin-top:24px; padding:14px 0; border:0; border-top:1px solid #cbd4bd; background:none; border-radius:0; flex-wrap:wrap; }
+.lab-step-list { display:grid; gap:12px; list-style:none; padding:20px 0 0; margin:20px 0 0; border-top:1px solid #cbd4bd; }
+.lab-step-list li { display:flex; gap:10px; align-items:center; color:#6a765b; font-size:11px; }
+.lab-step-list span { display:grid; place-items:center; width:24px; height:24px; border:1px solid #bac6a9; border-radius:5px; font:10px ui-monospace,monospace; }
+.lab-step-list li[aria-current="step"] { color:#7b263f; font-weight:650; }
+.lab-step-list li[aria-current="step"] span { color:#fff; background:#7b263f; border-color:#7b263f; }
+.lab-stage { min-width:0; padding:28px 30px 32px; background:#fbfcf8; }
+.lab-stage>h2 { margin:0 0 12px; }
+.lab-stage>p { font-size:14px; color:#56604c; margin-bottom:20px; }
+.lab-console .coach-target { outline:2px solid #899b70!important; outline-offset:4px; box-shadow:none!important; }
+.lab-console .option { background:#fff; border:1px solid #d7decb; border-left:3px solid #d7decb; padding:16px; font-size:14px; }
+.lab-console .option.selected { border-color:#a65c73; border-left-color:#7b263f; background:#f7ecf0; color:#562334; }
+.lab-console .option.selected .letter { background:#7b263f; color:#fff; }
+.lab-console .option:focus-visible,.lab-console button:focus-visible,.lab-console input:focus-visible,.lab-console textarea:focus-visible,.lab-console select:focus-visible { outline:3px solid #ae5270!important; outline-offset:4px; }
+.lab-console .request-workbench,.lab-console .scenario-lab,.lab-console .sql-demo,.lab-console .reverse-lab { position:relative; background:#eef1e7; border:1px solid #c9d3b9; border-radius:9px; padding:23px; box-shadow:0 3px 0 #dce2d2,0 10px 28px #27321808; }
+.lab-console .request-editor { border:1px solid #424f35; border-top:3px solid #7b263f; border-radius:6px; padding:19px; min-height:210px; font-size:12px; background:#1b2217!important; box-shadow:inset 0 2px 12px #0002; }
+.lab-console .terminal,.lab-console .scenario-code,.lab-console .reverse-code { border:1px solid #414c35; border-top:3px solid #7b263f; background:#1b2217; box-shadow:inset 0 1px 0 #ffffff0b; }
+.lab-console .request-response,.lab-console .scenario-result,.lab-console .sql-output,.lab-console .reverse-output { border-radius:6px; border-left:3px solid #8a9a71; background:#fff; color:#3e4a30; box-shadow:0 2px 6px #20281706; }
+.lab-execution { display:flex; align-items:center; gap:9px; padding:13px 0; margin-bottom:6px; border-top:1px solid #cdd6be; border-bottom:1px solid #cdd6be; color:#566447; font:10px ui-monospace,monospace; }
+.lab-execution i { width:21px; height:1px; background:#a6b494; position:relative; flex:1; max-width:55px; overflow:hidden; }
+.lab-execution i::after { content:''; position:absolute; inset:0; background:#7b263f; transform:scaleX(0); transform-origin:left; }
+.is-running .lab-execution { color:#7b263f; }
+.is-running .lab-execution i::after { animation:lab-transmit 850ms ease-in-out infinite; }
+.lab-console .lesson-footer { background:#20251d; border-top:1px solid #424a36; color:#c5cfb6; padding:18px 25px; z-index:4; gap:15px; }
+.lab-console .lesson-footer small { color:#c5cfb6; font-size:11px; }
+.lab-console .lesson-footer #footer-label { display:inline; color:#c5cfb6; opacity:1; }
+.lab-console .lesson-footer .help { background:#303927; color:#d5dec7; border:1px solid #536044; margin-top:8px; border-radius:5px; min-height:36px; }
+.lab-console .lesson-footer>.btn { background:#8b2e4b; border:1px solid #af5875; box-shadow:0 3px 0 #54172b; min-height:46px; color:#fff; }
+.lab-console .lesson-footer>.btn:hover { background:#a13a59; }
+.lab-console .feedback { margin:0 30px 25px; padding:18px 21px; border-left-width:3px; box-shadow:0 3px 12px #20281708; }
+.lab-console .feedback.good { border-color:#a6b88c; background:#e8efdc; color:#314823; }
+.lab-console .feedback.bad { border-color:#bd8294; background:#f6e8ed; color:#742b43; }
+.lab-console .help-text { border-left:3px solid #7b263f; background:#f3e9ed; color:#5a2c3b; }
+.lab-result-mark { display:grid; place-items:center; width:52px; height:52px; border:1px solid #9eaf86; background:#e4ecd7; border-radius:50%; color:#53693b; font-size:25px; margin:0 auto 18px; }
+@keyframes lab-transmit { 0% { transform:translateX(-100%) scaleX(.4); } 100% { transform:translateX(100%) scaleX(.4); } }
+@media(max-width:900px) {
+  .modal.lab-console { width:min(850px,100%); }
+  .lab-console .lesson-body.lab-workspace { grid-template-columns:200px minmax(0,1fr); }
+  .lab-stage { padding:25px 22px; }
+  .lab-guide { padding:25px 18px; }
+}
+@media(max-width:680px) {
+  .modal-backdrop { padding:8px; }
+  .modal.lab-console { max-height:calc(100dvh - 16px); border-radius:10px; }
+  .lab-console .modal-head { padding:14px 17px; }
+  .lab-banner { padding:19px 20px 16px; gap:12px; align-items:start; }
+  .lab-banner strong { font-size:16px; }
+  .lab-banner small { font-size:9px; }
+  .lab-state { font-size:10px; margin-top:3px; }
+  .lab-flow { padding:0 20px 20px; justify-content:space-between; }
+  .lab-flow li { gap:6px; font-size:10px; }
+  .lab-flow li+li::before { width:14px; margin:0 6px; }
+  .lab-console .lesson-body { padding:23px 20px; }
+  .lab-console .lesson-body.lab-workspace { grid-template-columns:1fr; }
+  .lab-guide { padding:19px 20px; border-right:0; border-bottom:1px solid #cbd4bd; }
+  .lab-guide>.eyebrow { display:none; }
+  .lab-guide .step-instructions p { margin:8px 0; }
+  .lab-guide .step-instructions small { border:0; padding:0; }
+  .lab-guide .tech-pill { margin:12px 0 0; padding:9px 0 0; }
+  .lab-step-list { display:none; }
+  .lab-stage { padding:24px 20px; }
+  .lab-console .lesson-body h2 { font-size:22px; }
+  .lab-console .request-workbench,.lab-console .scenario-lab,.lab-console .sql-demo,.lab-console .reverse-lab { padding:17px; }
+  .lab-console .request-editor { padding:14px; font-size:11px; min-height:190px; }
+  .lab-console .lesson-footer { padding:14px 17px max(14px,env(safe-area-inset-bottom)); }
+  .lab-console .lesson-footer #footer-label { display:none; }
+  .lab-console .feedback { margin:0 20px 20px; padding:16px; }
+}
+@media(max-width:360px) {
+  .lab-banner { flex-wrap:wrap; }
+  .lab-flow li+li::before { width:7px; margin:0 4px; }
+  .lab-flow { padding-left:17px; padding-right:17px; }
+  .lab-stage,.lab-console .lesson-body { padding:21px 17px; }
+  .lab-console .lesson-body.lab-workspace { padding:0; }
+  .lab-console .request-workbench,.lab-console .scenario-lab,.lab-console .sql-demo,.lab-console .reverse-lab { padding:14px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; }
+  .mission-card:hover,.starter-grid button:hover,.course-index a:hover,.mission-card:hover .launch,.btn:active:not(:disabled),.option:active:not(:disabled) { transform:none!important; }
+}
+
+/* END_TRACE_MOTION */
 </style>
 </head><body>
 <!-- 모든 이미지·미션·게임 코드는 이 파일에 포함됩니다. Tailwind CDN 없이도 사용자 정의 CSS가 동작합니다. -->
@@ -1094,6 +1230,129 @@ const traceApplyPlayer=applyPlayer;applyPlayer=function(player){traceApplyPlayer
 renderGlossary();renderStats();refreshRankMode();
 if(location.pathname==='/rank')showView('league');
 if(location.pathname==='/learn'){const id=Number(new URLSearchParams(location.search).get('mission'));if(missions.some(item=>item.id===id))openMission(id);}
+
+// Presentation only: lesson state, answers, timings and scores stay in their original lifecycle.
+const labMotionPreference=matchMedia('(prefers-reduced-motion: reduce)');
+const labMotionAnimations=new Set();
+function labAnimate(element,keyframes,options={}){
+  if(!element||labMotionPreference.matches||typeof element.animate!=='function')return;
+  // A new transition replaces an unfinished one on this element, never accumulates.
+  for(const animation of labMotionAnimations)if(animation.effect?.target===element){animation.cancel();labMotionAnimations.delete(animation);}
+  const animation=element.animate(keyframes,{duration:260,easing:'cubic-bezier(.22,.8,.28,1)',...options});
+  labMotionAnimations.add(animation);
+  const forget=()=>labMotionAnimations.delete(animation);
+  animation.addEventListener('finish',forget,{once:true});animation.addEventListener('cancel',forget,{once:true});
+}
+labMotionPreference.addEventListener('change',()=>{if(labMotionPreference.matches){for(const animation of labMotionAnimations)animation.cancel();labMotionAnimations.clear();}});
+function labEnter(element,delay=0){labAnimate(element,[{opacity:.25,transform:'translateY(9px)'},{opacity:1,transform:'translateY(0)'}],{delay});}
+const labConsole=$('.modal');
+labConsole.classList.add('lab-console');
+const labBanner=document.createElement('header');labBanner.className='lab-banner';
+labBanner.innerHTML='<div><small id="lab-session-label">TRACELAB / PRACTICE</small><strong id="lab-session-title"></strong></div><span class="lab-state" id="lab-state-label" role="status" aria-live="polite">준비</span>';
+const labFlow=document.createElement('ol');labFlow.className='lab-flow';labFlow.setAttribute('aria-label','실습 흐름');
+labFlow.innerHTML='<li><b>01</b>브리핑</li><li><b>02</b>직접 실습</li><li><b>03</b>정리</li>';
+$('.modal-head').after(labBanner,labFlow);
+let labLastGeneration=-1,labPendingOperations=0,labRenderEpoch=0;
+function labSetState(value,label){labConsole.dataset.labState=value;$('#lab-state-label').textContent=label;}
+function labSyncState(){
+  if(labPendingOperations){labSetState('running','처리 중');return;}
+  labSetState(passed||phase==='result'?'verified':'ready',phase==='result'?'완료':passed?'확인 완료':phase==='brief'?'준비':'실습 중');
+}
+function labDecorateLesson(){
+  const body=$('#lesson-body');
+  $('#lab-session-label').textContent='LAB '+String(mission.id+1).padStart(2,'0')+' / '+(rankLessonId?'랭크 도전':isRoomLesson()?'함께 도전':'혼자 연습');
+  $('#lab-session-title').textContent=shortTitles[mission.id];
+  const phaseIndex=phase==='brief'?0:phase==='result'?2:1;
+  [...labFlow.children].forEach((item,index)=>{item.classList.toggle('is-done',index<phaseIndex);if(index===phaseIndex)item.setAttribute('aria-current','step');else item.removeAttribute('aria-current');});
+  body.classList.toggle('lab-workspace',phase==='challenge');
+  if(phase==='challenge'){
+    const guide=document.createElement('aside');guide.className='lab-guide';guide.setAttribute('aria-label','실습 안내');
+    const stage=document.createElement('div');stage.className='lab-stage';
+    for(const node of [...body.children]){
+      if(node.matches('.eyebrow,.step-instructions,.tech-pill'))guide.append(node);else stage.append(node);
+    }
+    const steps=document.createElement('ol');steps.className='lab-step-list';steps.setAttribute('aria-label','문제 진행');
+    for(let index=0;index<mission.challenge;index++){
+      const item=document.createElement('li');
+      item.innerHTML='<span>'+String(index+1).padStart(2,'0')+'</span>'+(index<step?'확인한 단서':index===step?'지금 풀 단서':'다음 단서');
+      if(index===step)item.setAttribute('aria-current','step');steps.append(item);
+    }
+    guide.append(steps);body.append(guide,stage);
+  }
+  if(phase==='result'){
+    const mark=document.createElement('div');mark.className='lab-result-mark';mark.setAttribute('aria-hidden','true');mark.textContent='✓';
+    $('#lesson-title').before(mark);
+    labAnimate(mark,[{opacity:0,transform:'scale(.8)'},{opacity:1,transform:'scale(1)'}],{duration:360});
+  }
+  for(const workbench of body.querySelectorAll('.request-workbench,.scenario-lab,.sql-demo,.reverse-lab')){
+    const flow=document.createElement('div');flow.className='lab-execution';flow.setAttribute('aria-hidden','true');
+    flow.innerHTML='<span>입력</span><i></i><span>실행</span><i></i><span>응답</span>';
+    const heading=workbench.querySelector(':scope>header,:scope>.lab-mini-head');
+    if(heading)heading.after(flow);else workbench.prepend(flow);
+  }
+  labWireExecutions();labSyncState();
+  if(labLastGeneration!==lessonGeneration){
+    labLastGeneration=lessonGeneration;
+    labAnimate(labConsole,[{opacity:.4,transform:'translateY(16px) scale(.985)'},{opacity:1,transform:'translateY(0) scale(1)'}],{duration:320});
+  }else{
+    for(const element of body.querySelectorAll(':scope>.lab-guide,:scope>.lab-stage'))labEnter(element,element.classList.contains('lab-stage')?40:0);
+    if(phase!=='challenge')labEnter(body);
+  }
+}
+function labWireExecutions(){
+  const pairs=[['advanced-run','advanced-result'],['scenario-run','scenario-result'],['sql-unsafe','sql-output'],['sql-safe','sql-output'],['reverse-run','reverse-output'],['builder-run','builder-result'],['robot-run','robot-result']];
+  for(const [buttonId,resultId] of pairs){
+    const button=$('#'+buttonId);if(!button?.onclick)continue;
+    const handler=button.onclick,generation=lessonGeneration,epoch=labRenderEpoch;
+    button.onclick=async function(event){
+      const result=$('#'+resultId),before=result?.innerHTML;
+      const bench=button.closest('.request-workbench,.scenario-lab,.sql-demo,.reverse-lab');
+      labPendingOperations++;bench?.classList.add('is-running');button.setAttribute('aria-busy','true');labSyncState();
+      try{return await handler.call(this,event);}
+      finally{
+        if(generation===lessonGeneration&&epoch===labRenderEpoch){labPendingOperations=Math.max(0,labPendingOperations-1);labSyncState();}
+        bench?.classList.remove('is-running');button.removeAttribute('aria-busy');
+        if(result?.isConnected&&generation===lessonGeneration&&epoch===labRenderEpoch&&result.innerHTML!==before){
+          labEnter(result);
+          [...result.querySelectorAll('li')].slice(0,6).forEach((line,index)=>labEnter(line,30+index*35));
+        }
+      }
+    };
+  }
+}
+const labOriginalRender=renderLesson;
+renderLesson=function(){labRenderEpoch++;labPendingOperations=0;labOriginalRender();labDecorateLesson();};
+const labOriginalLaunch=launchRankLesson;
+launchRankLesson=function(){labOriginalLaunch();if(rankLessonId)$('#lab-session-label').textContent='LAB '+String(mission.id+1).padStart(2,'0')+' / 랭크 도전';};
+const labOriginalClose=closeMission;
+closeMission=function(){labOriginalClose();labPendingOperations=0;for(const animation of labMotionAnimations)if(labConsole.contains(animation.effect?.target)){animation.cancel();labMotionAnimations.delete(animation);}};
+$('#close').onclick=()=>closeMission();
+const labOriginalResponse=response;
+response=function(ok,text){const alreadyPassed=passed;labOriginalResponse(ok,text);labSyncState();if(!alreadyPassed)labEnter($('#feedback'));};
+const labOriginalHint=renderHint;
+renderHint=function(){labOriginalHint();if(hintOpen)labEnter($('#hint-text'));};
+const labOriginalShowView=showView;
+showView=function(id){const changed=appView!==id;labOriginalShowView(id);if(changed)labEnter($('#'+id));};
+// Reflect actual network work on the submit button, including rank and account attempts.
+new MutationObserver(()=>{
+  const button=$('#check');
+  button.setAttribute('aria-busy',String(submitting));
+}).observe($('#check'),{attributes:true,attributeFilter:['disabled']});
+// Retain the final, accurate number; a short tint acknowledges real changes only.
+for(const id of ['xp','hearts','streak']){
+  const element=$('#'+id);let previous=element.textContent;
+  new MutationObserver(()=>{const next=element.textContent;if(next!==previous){previous=next;labAnimate(element,[{color:'#7b263f',transform:'translateY(-2px)'},{color:getComputedStyle(element).color,transform:'translateY(0)'}],{duration:350});}}).observe(element,{childList:true,subtree:true,characterData:true});
+}
+labEnter($('.editorial-hero'));
+// These stable sections enter once. Rebuilt cards and polling rows are excluded.
+if(typeof IntersectionObserver==='function'){
+  const reveal=new IntersectionObserver(entries=>{
+    let order=0;
+    for(const entry of entries)if(entry.isIntersecting){reveal.unobserve(entry.target);labEnter(entry.target,Math.min(order++*35,105));}
+  },{threshold:.12});
+  document.querySelectorAll('.starter-path,.catalog-toolbar,.right>.panel,.guide-grid>.panel').forEach(element=>reveal.observe(element));
+}
+if($('#overlay').classList.contains('open'))labDecorateLesson();
 
 </script>
 <!-- END_TRACE_APP -->

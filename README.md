@@ -79,6 +79,7 @@ API 토큰을 코드나 채팅에 넣지 않습니다. `.devcontainer`는 Node�
 | --- | --- |
 | `index.html` | 기본 화면·CSS·기존 실습 |
 | `site/app.mjs` | 전문 챕터·사전 검색·랭크 UI의 원본 |
+| `site/motion.css`, `site/motion.mjs` | 몰입형 실습 작업대·단계 전환·실행 피드백과 움직임 줄이기 |
 | `server/worker.mjs` | 계정·실습·친구 방 API |
 | `server/rules.mjs`, `server/advanced.mjs` | 공통 규칙과 HTTP 요청 실습 |
 | `server/labs.mjs` | 격리된 서버 실습과 실행 증거 |
@@ -88,4 +89,4 @@ API 토큰을 코드나 채팅에 넣지 않습니다. `.devcontainer`는 Node�
 | `migrations/0002_rank_and_labs.sql` | 기존 기록을 유지하며 랭크·증거 테이블 추가 |
 | `scripts/build.mjs` | 공통 모듈을 단일 HTML과 Worker로 묶기 |
 
-[주요 코드 안내](docs/CODE_GUIDE.md) · [처음부터 읽는 학습서](docs/LEARNING_GUIDE.md) · [랭크·전문 챕터·사전·보안 코드](docs/FEATURE_GUIDE.md) · [배포 오류 해결](docs/CLOUDFLARE_GUIDE.md).
+[주요 코드 안내](docs/CODE_GUIDE.md) · [처음부터 읽는 학습서](docs/LEARNING_GUIDE.md) · [랭크·전문 챕터·사전·보안 코드](docs/FEATURE_GUIDE.md) · [실습 화면과 움직임 배우기](docs/MOTION_GUIDE.md) · [배포 오류 해결](docs/CLOUDFLARE_GUIDE.md).

@@ -12,8 +12,13 @@ function block(start,end,contents,before){
 }
 block('<!-- TRACE_CONTENT -->','<!-- END_TRACE_CONTENT -->',inlineModule('server/content.mjs'),'<!-- SHARED_RULES -->');
 block('<!-- SHARED_RULES -->','<!-- END_SHARED_RULES -->',inlineModule('server/advanced.mjs')+'\n'+inlineModule('server/rules.mjs'),"<script>\n'use strict';");
-if(source('site/app.mjs').includes('</script>'))throw new Error('Frontend script contains an unsafe HTML closing marker.');
-block('<!-- TRACE_APP -->','<!-- END_TRACE_APP -->',source('site/app.mjs'));
+const app=source('site/app.mjs')+'\n'+source('site/motion.mjs');
+if(app.includes('</script>'))throw new Error('Frontend script contains an unsafe HTML closing marker.');
+block('<!-- TRACE_APP -->','<!-- END_TRACE_APP -->',app);
+const styleStart='/* TRACE_MOTION */',styleEnd='/* END_TRACE_MOTION */';
+const motionStyles=styleStart+'\n'+source('site/motion.css')+'\n'+styleEnd;
+if(html.includes(styleStart)){const a=html.indexOf(styleStart),b=html.indexOf(styleEnd,a)+styleEnd.length;html=html.slice(0,a)+motionStyles+html.slice(b);}
+else html=html.replace('</style>',motionStyles+'\n</style>');
 writeFileSync('index.html',html);mkdirSync('dist/server',{recursive:true});writeFileSync('dist/index.html',html);
 const modules=['advanced','rules','content','security','pages','rank','labs','worker'].map(name=>inlineModule('server/'+name+'.mjs')).join('\n');
 writeFileSync('dist/server/index.js',modules+'\nexport default createWorker('+JSON.stringify(html)+');\n');
