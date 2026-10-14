@@ -72,6 +72,8 @@ server/rank.mjs: 랭크 문제 완료 → 서버 점수 저장
 
 `scripts/build.mjs`는 모듈의 공통 규칙과 용어 데이터를 단일 HTML에 반영하고 Worker를 만듭니다. 새 프런트엔드 기능의 원본은 `site/app.mjs`이며 생성된 `TRACE_APP` 블록만 수정하면 다음 빌드에서 덮어씁니다.
 
+`scripts/cloudflare-build.mjs`는 Wrangler 사용자 빌드입니다. Workers Builds에서 직접 `wrangler deploy`를 실행해도 업로드 전에 기존 DB를 확인하고 미적용 마이그레이션을 적용합니다. 코드 업로드 성공과 데이터베이스 준비는 별도라, 새 API만 게시되고 테이블은 빠지는 상황을 방지합니다.
+
 기존 데이터베이스·Worker 이름과 브라우저 저장 키는 호환을 위해 유지합니다. 새 마이그레이션은 랭크와 실습 증거 테이블을 추가하며 기존 계정·점수·친구 방을 삭제하지 않습니다.
 
 검증 명령: `npm test`, `npm run build`, `npm run cloudflare:check`. 테스트는 랭크 순서·위조 증거·소유권·동시 제출·보안 헤더·검색 페이지와 기존 기능을 확인합니다.

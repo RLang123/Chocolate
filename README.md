@@ -59,7 +59,7 @@ Google Search Console은 현재 workers.dev 주소의 **URL 접두어 속성**�
 
 ## Cloudflare 배포
 
-현재 연결된 Cloudflare Workers Builds가 GitHub main의 새 커밋을 배포합니다. 빌드 명령은 `npm run build`, 배포 명령은 `npm run deploy`입니다. 배포는 기존 D1 이름·ID 확인과 미적용 마이그레이션만 적용합니다.
+현재 연결된 Cloudflare Workers Builds가 GitHub main의 새 커밋을 배포합니다. 빌드 명령은 `npm run build`, 배포 명령은 `npm run deploy`를 권장합니다. Wrangler의 사용자 빌드도 Workers Builds 환경에서는 기존 D1 이름·ID 확인과 미적용 마이그레이션 적용을 수행하므로, 기본 `wrangler deploy` 경로에서도 업로드 전에 스키마를 준비합니다. 로컬 빌드·GitHub 검증은 원격 데이터를 바꾸지 않습니다.
 
 GitHub Actions는 테스트·빌드를 항상 실행합니다. 별도의 `CLOUDFLARE_API_TOKEN` secret이 있으면 Actions에서도 배포하고, 없으면 추가 배포 작업을 생략합니다. 실제 Cloudflare 배포 결과는 커밋의 `Workers Builds: chocolate` 검사에서 확인합니다.
 
