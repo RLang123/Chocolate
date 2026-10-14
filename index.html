@@ -448,6 +448,79 @@ body{background:#f7f7f2;font-size:15px}a{color:#7b263f;text-underline-offset:4px
   .mission-card:hover,.starter-grid button:hover,.course-index a:hover,.mission-card:hover .launch,.btn:active:not(:disabled),.option:active:not(:disabled) { transform:none!important; }
 }
 
+/* The moving scene is contained: the explanation and action never drift. */
+.welcome.lab-hero.editorial-hero.hacker-hero { display:grid; grid-template-columns:1fr 1.04fr; min-height:440px; padding:0; gap:0; background:#f0f1e9; border:1px solid #d4dcc7; border-radius:9px; margin-bottom:0; overflow:hidden; }
+.hacker-hero .welcome-text { padding:33px 29px; align-self:center; max-width:none; }
+.hacker-hero .welcome-text>.eyebrow { color:#626b46; letter-spacing:.3px; font:600 11px system-ui,sans-serif; }
+.hacker-hero h1 { color:#7b263f; font-size:clamp(29px,2.3vw,37px); line-height:1.4; letter-spacing:-1.3px; margin:20px 0; text-wrap:balance; }
+.hacker-hero .welcome-text>p { font-size:13px; line-height:1.95; color:#4d5743; max-width:370px; word-break:keep-all; }
+.hacker-hero .hero-actions { gap:14px; margin-top:24px; }
+.hacker-hero .hero-actions>.btn { margin:0; font-size:12px; padding:12px 15px; min-height:45px; }
+.hacker-hero .hero-link { font-size:11px; color:#5b674b; }
+.hero-start-note { display:block; margin-top:14px; color:#5c694d; font-size:10px; line-height:1.7; }
+.code-scene { position:relative; align-self:stretch; margin:0; min-width:0; min-height:440px; overflow:hidden; background:#080f0b; border-left:1px solid #303f2c; isolation:isolate; }
+.code-scene::after { content:''; position:absolute; inset:0; pointer-events:none; box-shadow:inset 0 0 70px #0006; z-index:2; }
+.code-scene-bar { position:relative; z-index:5; display:flex; align-items:center; justify-content:space-between; gap:9px; padding:14px 17px; border-bottom:1px solid #45603757; background:#0c140fe8; color:#b1c7a0; }
+.code-scene-bar figcaption { display:flex; align-items:center; gap:8px; font:8px ui-monospace,monospace; letter-spacing:.7px; }
+.code-scene-bar figcaption>span { color:#89ac72; font-size:15px; }
+.code-motion-toggle { display:flex; align-items:center; gap:6px; padding:5px 7px; background:#19271b; border:1px solid #526f425f; border-radius:4px; color:#bfd7ad; font-size:9px; min-height:29px; white-space:nowrap; }
+.code-motion-toggle:hover { background:#253b26; border-color:#819e65; }
+.code-motion-toggle[aria-pressed="true"] { background:#233721; color:#d4e4c7; border-color:#668052; }
+.code-motion-toggle:focus-visible { outline:2px solid #e7a2b8; outline-offset:3px; }
+.code-motion-toggle:disabled { opacity:1; color:#9aae8e; cursor:default; }
+.code-atmosphere { position:absolute; inset:48px 0 0; pointer-events:none; overflow:hidden; background:radial-gradient(ellipse at 50% 34%,#233c2380,transparent 63%); }
+.code-rain { position:absolute; inset:0; width:100%; height:100%; display:block; }
+.code-rain-back { z-index:0; opacity:.88; }
+.code-halo { position:absolute; left:12%; top:7%; width:76%; height:64%; background:radial-gradient(ellipse,#78a35e12,transparent 70%); }
+.code-figure { position:absolute; left:50%; top:2px; width:min(90%,350px); height:auto; z-index:1; transform:translate(-50%,12px); filter:drop-shadow(0 0 11px #72975b33); will-change:transform,opacity; }
+.code-rain-front { z-index:2; opacity:.47; }
+.code-coordinate { position:absolute; top:16px; right:14px; text-align:right; color:#abc68f7a; font:7px/1.8 ui-monospace,monospace; letter-spacing:.8px; z-index:3; }
+.code-learning-panel { position:absolute; left:17px; right:17px; bottom:17px; z-index:4; border:1px solid #5b774760; border-top:2px solid #8a354f; border-radius:5px; background:#0b160ff2; padding:15px; box-shadow:0 12px 30px #0005; }
+.code-panel-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:15px; }
+.code-panel-head>span { color:#dce7d3; font-size:11px; font-weight:600; }
+.code-panel-head>small { color:#a6be93; font:8px ui-monospace,monospace; }
+.code-example { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.code-example>div { display:grid; gap:5px; }
+.code-example>div>span { font-size:9px; color:#9bb48b; }
+.code-example code { font:11px ui-monospace,monospace; color:#d2e4c6; }
+.code-example code b { color:#b4de97; font-weight:500; }
+.code-example-arrow { color:#7c9f65; font-size:16px; }
+.code-learning-flow { display:flex; gap:0; justify-content:space-between; list-style:none; padding:12px 0 0; margin:14px 0 0; border-top:1px solid #3e56323b; color:#d3dfc8; font-size:9px; white-space:nowrap; }
+.code-learning-flow li+li::before { content:'›'; color:#839f6c; margin-right:9px; }
+.course-index.hero-chapters { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; border-left:0; border-top:0; border-bottom:1px solid #d8decd; margin:0 0 29px; padding:19px 6px; }
+.hero-chapters a { gap:5px; min-width:0; }
+.hero-chapters strong { font-size:11px; }
+.hero-chapters span { font-size:8px; }
+@media(min-width:1600px) { .hacker-hero .welcome-text { padding:42px 36px; } .hacker-hero h1 { font-size:40px; } .code-scene { min-height:460px; } }
+@media(max-width:1300px) and (min-width:1221px) { .hacker-hero .welcome-text { padding:27px 24px; } .hacker-hero h1 { font-size:30px; } .code-scene-bar { padding:13px; } .code-scene-bar figcaption { font-size:7px; } }
+@media(max-width:1050px) and (min-width:761px) {
+  .hacker-hero .welcome-text { padding:28px 25px; }
+  .hacker-hero h1 { font-size:30px; }
+  .code-scene-bar { padding:13px; }
+  .code-scene-bar figcaption { font-size:7px; letter-spacing:.3px; }
+  .code-learning-panel { left:13px; right:13px; padding:13px; }
+  .code-learning-flow { font-size:8px; }
+}
+@media(max-width:760px) {
+  .welcome.lab-hero.editorial-hero.hacker-hero { grid-template-columns:1fr; border-radius:8px; }
+  .hacker-hero .welcome-text { padding:29px 25px 28px; }
+  .hacker-hero h1 { font-size:32px; margin:18px 0; }
+  .hacker-hero .hero-actions { gap:15px; margin-top:21px; }
+  .code-scene { min-height:290px; border-left:0; border-top:1px solid #303f2c; }
+  .code-scene-bar { padding:10px 16px; }
+  .code-scene-bar figcaption { font-size:8px; }
+  .code-atmosphere { inset:42px 0 0; }
+  .code-figure { top:-32px; width:230px; }
+  .code-learning-panel { bottom:14px; left:16px; right:16px; padding:12px 14px; }
+  .code-panel-head { margin-bottom:10px; }
+  .code-learning-flow { padding-top:9px; margin-top:10px; }
+  .code-coordinate { top:13px; right:13px; }
+  .course-index.hero-chapters { grid-template-columns:1fr 1fr; padding:18px 3px; gap:16px; }
+  .hero-chapters strong { font-size:12px; }
+}
+@media(max-width:360px) { .hacker-hero .welcome-text { padding:25px 21px; } .hacker-hero h1 { font-size:28px; } .code-scene-bar figcaption { font-size:7px; letter-spacing:.2px; } .code-learning-panel { left:12px; right:12px; padding:12px; } .code-learning-flow { font-size:8px; } .hero-chapters strong { font-size:11px; } }
+@media(prefers-reduced-motion:reduce) { .code-figure { will-change:auto; } }
+
 /* END_TRACE_MOTION */
 </style>
 </head><body>
@@ -456,7 +529,66 @@ body{background:#f7f7f2;font-size:15px}a{color:#7b263f;text-underline-offset:4px
 <div class="app"><aside class="sidebar"><div class="sidebar-brand"><div class="logo"><div class="logo-mark">ϟ</div><div class="logo-text">TraceLab<small>WEB SECURITY PRACTICE</small></div></div></div><nav class="nav" aria-label="주 메뉴"><button class="active" data-view="missions"><span class="nav-icon">◈</span><span class="nav-label">실습</span></button><button data-view="quests"><span class="nav-icon">⚑</span><span class="nav-label">학습 목표</span></button><button data-view="league"><span class="nav-icon">♜</span><span class="nav-label">랭크</span></button><button data-view="squad"><span class="nav-icon">♧</span><span class="nav-label">함께 실습</span></button><button data-view="techniques"><span class="nav-icon">⌘</span><span class="nav-label">용어 사전</span></button><div class="nav-caption">START HERE</div><button data-view="guide"><span class="nav-icon">✧</span><span class="nav-label">시작 안내</span></button></nav><div class="side-note"><strong>허가된 환경에서 배우기</strong>실험하고, 원인을 이해하고,<br>방어 방법까지 확인합니다.</div><div class="profile"><div class="avatar" id="my-avatar">🧑‍🚀</div><div><strong id="my-name">혼자 연습 중</strong><small id="profile-level">레벨 1 · 도토리 탐험가</small></div></div></aside>
 <main class="main"><header class="topbar"><div class="top-title"><span class="live-dot"></span><span id="connection-label">공유 실습 · 연결 확인 중</span></div><div class="mobile-brand"><span class="logo-mark">ϟ</span>TraceLab</div><div class="hud"><div class="stat" title="연속 학습일"><i>🔥</i><div><span id="streak">0</span><small>연속 학습</small></div></div><div class="stat" title="보유 도토리"><i>🌰</i><div><span id="gems">0</span><small>도토리</small></div></div><div class="stat" title="하트"><i>♥️</i><div><span id="hearts">5</span><small>하트</small></div><button class="recover" id="recover-top">회복</button></div><div class="stat stat-xp" title="총 경험치"><i style="color:#d7ae38">ϟ</i><div><span id="xp">0 XP</span><small>경험치</small></div></div><button class="sound" id="sound" aria-label="효과음 끄기">🔊</button></div></header>
 <div class="workspace"><section><div id="missions" class="view active"><div class="title-row"><div><h1>나의 보안 실험실</h1><div class="eyebrow">TRACELAB / WEB SECURITY</div></div><span class="level-pill"><span class="live-dot"></span> 사전 지식 없이 시작해요</span></div>
-<section id="study-dashboard" class="study-dashboard" hidden aria-label="나의 학습 진행"></section><div class="welcome lab-hero editorial-hero"><div class="welcome-text"><span class="eyebrow">WEB SECURITY / PRACTICE NOTES</span><h1>요청을 읽고,<br>서버의 판단을 확인합니다.</h1><p>기초 용어부터 HTTP·SQL·접근 권한까지.<br>직접 입력하고 결과를 비교하는 웹 보안 실습입니다.<br>처음이라면 비밀번호와 피싱 실습부터 시작하세요.</p><div class="hero-actions"><button class="btn" data-mission="0">기초 실습 시작</button><a class="hero-link" href="/chapters">전문 챕터 살펴보기</a></div></div><nav class="course-index" aria-label="학습 자료"><a href="/chapters/http-authorization"><span>01 / HTTP</span><strong>요청과 접근 권한</strong></a><a href="/chapters/sql-parameter-binding"><span>02 / SQL</span><strong>입력과 검색 조건</strong></a><a href="/chapters/server-trust-boundary"><span>03 / TRUST</span><strong>서버의 신뢰 경계</strong></a><a href="/chapters/login-rate-limiting"><span>04 / LOGS</span><strong>로그와 요청 제한</strong></a></nav></div><section class="starter-path" aria-labelledby="starter-title"><div class="section-head"><h2 id="starter-title">기초 실습</h2><span>처음이라면 이 세 가지부터</span></div><div class="starter-grid"><button data-mission="0"><span>01 · 계정의 기초</span><strong>비밀번호 만들기 →</strong><small>내 계정을 지키는 열쇠를 배워요.</small></button><button data-mission="1"><span>02 · 의심하는 연습</span><strong>가짜 메일 구별하기 →</strong><small>속이는 말과 링크를 찾아봐요.</small></button><button data-mission="13"><span>03 · 첫 규칙 실험</span><strong>내 게임 규칙 바꾸기 →</strong><small>값을 바꾸면 무엇이 달라질까요?</small></button></div></section>
+<section id="study-dashboard" class="study-dashboard" hidden aria-label="나의 학습 진행"></section><!-- TRACE_HERO -->
+<section class="welcome lab-hero editorial-hero hacker-hero" aria-labelledby="hero-title">
+  <div class="welcome-text">
+    <span class="eyebrow">처음 배우는 해킹과 보안</span>
+    <h1 id="hero-title">요청을 읽고,<br>서버의 판단을 확인합니다.</h1>
+    <p>직접 바꿔 보고, 결과를 비교하며 배우는 보안 실습.<br>처음이라도 설명을 따라 시작할 수 있어요.</p>
+    <div class="hero-actions">
+      <button class="btn" data-mission="0">첫 실습 시작하기 <span aria-hidden="true">→</span></button>
+      <a class="hero-link" href="/chapters">어떤 것을 배우나요?</a>
+    </div>
+    <small class="hero-start-note">가입 없이 시작 · 쉬운 설명과 단계별 힌트</small>
+  </div>
+  <figure class="code-scene" id="code-scene" aria-labelledby="code-scene-title">
+    <div class="code-scene-bar">
+      <figcaption id="code-scene-title"><span aria-hidden="true">⌘</span> TRACELAB / FIELD NOTES</figcaption>
+      <button type="button" class="code-motion-toggle" id="code-motion-toggle" aria-label="첫 화면 그래픽 움직임 멈추기" aria-pressed="false"><span aria-hidden="true">Ⅱ</span><span class="code-toggle-label">멈춤</span></button>
+    </div>
+    <div class="code-atmosphere" aria-hidden="true">
+      <canvas class="code-rain code-rain-back" id="code-rain-back"></canvas>
+      <div class="code-halo"></div>
+      <svg class="code-figure" id="code-figure" viewBox="0 0 400 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hood-fabric" x1="104" y1="70" x2="306" y2="342" gradientUnits="userSpaceOnUse"><stop stop-color="#314733"/><stop offset=".45" stop-color="#15271a"/><stop offset="1" stop-color="#080f0b"/></linearGradient>
+          <linearGradient id="hood-edge" x1="81" y1="131" x2="306" y2="262" gradientUnits="userSpaceOnUse"><stop stop-color="#b4e49e"/><stop offset=".5" stop-color="#476d43"/><stop offset="1" stop-color="#91c583"/></linearGradient>
+          <linearGradient id="hood-body" x1="200" y1="252" x2="200" y2="418" gradientUnits="userSpaceOnUse"><stop stop-color="#1c3020"/><stop offset="1" stop-color="#080e0a"/></linearGradient>
+          <radialGradient id="hood-face" cx="0" cy="0" r="1" gradientTransform="translate(216 203) rotate(96) scale(70 55)" gradientUnits="userSpaceOnUse"><stop stop-color="#24382a"/><stop offset="1" stop-color="#050b07"/></radialGradient>
+          <pattern id="hood-grid" width="7" height="7" patternUnits="userSpaceOnUse"><path d="M0 0H7M0 0V7" stroke="#acd98d" stroke-opacity=".075" stroke-width=".5"/></pattern>
+          <clipPath id="hood-shape"><path d="M200 38C157 40 128 73 108 116L76 210L91 250C45 264 21 309 10 412H390C379 309 355 264 309 250L324 210L292 116C272 73 243 40 200 38Z"/></clipPath>
+        </defs>
+        <path d="M94 246C45 266 21 309 10 412H390C379 309 355 266 306 246L200 281L94 246Z" fill="url(#hood-body)" stroke="#5c8555" stroke-opacity=".75" stroke-width="1.4"/>
+        <path d="M200 38C157 40 128 73 108 116L76 210L91 250L145 283L200 302L255 283L309 250L324 210L292 116C272 73 243 40 200 38Z" fill="url(#hood-fabric)" stroke="url(#hood-edge)" stroke-width="1.8"/>
+        <path d="M200 76C166 86 140 123 124 159L109 214L150 250L200 280L250 250L291 214L276 159C260 123 234 86 200 76Z" fill="#070f0a" stroke="#678d5b" stroke-width="1.2"/>
+        <path d="M153 159C164 131 180 119 200 116C224 119 242 139 250 160L246 218C236 243 218 259 200 264C182 259 164 243 154 218L153 159Z" fill="url(#hood-face)"/>
+        <path d="M133 167Q199 124 267 167L255 192Q198 171 145 192L133 167Z" fill="#040906"/>
+        <path d="M210 181L204 212L218 219M187 237Q201 242 217 233" stroke="#64805a" stroke-opacity=".55" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M200 38Q143 83 109 214M200 38Q258 85 291 214M78 211L150 250M322 211L250 250" stroke="#8cbb76" stroke-opacity=".37" stroke-width="1.1"/>
+        <path d="M91 250L141 296L127 360M309 250L259 296L273 360M145 283L177 327L200 302L224 327L255 283M200 304V404" stroke="#58744b" stroke-width="1.1"/>
+        <path d="M40 322L93 298L104 344M360 322L307 298L296 344M148 282L146 331M252 282L254 331" stroke="#91b67b" stroke-opacity=".35" stroke-width="1.4"/>
+        <path d="M143 331L140 347M257 331L260 347" stroke="#b5d899" stroke-opacity=".65" stroke-width="2" stroke-linecap="round"/>
+        <rect width="400" height="420" fill="url(#hood-grid)" clip-path="url(#hood-shape)"/>
+      </svg>
+      <canvas class="code-rain code-rain-front" id="code-rain-front"></canvas>
+      <span class="code-coordinate">01 / OBSERVE<br>02 / EXPERIMENT<br>03 / UNDERSTAND</span>
+    </div>
+    <div class="code-learning-panel">
+      <div class="code-panel-head"><span>이렇게 배웁니다</span><small>HTTP 실습 예시</small></div>
+      <div class="code-example"><div><span>보낸 요청</span><code>GET /profile</code></div><span class="code-example-arrow" aria-hidden="true">→</span><div><span>돌아온 응답</span><code><b>200</b> OK</code></div></div>
+      <ol class="code-learning-flow"><li>요청 보내기</li><li>응답 확인</li><li>안전한 방법 찾기</li></ol>
+    </div>
+  </figure>
+</section>
+<nav class="course-index hero-chapters" aria-label="전문 챕터 학습 자료">
+  <a href="/chapters/http-authorization"><span>01 / HTTP</span><strong>요청과 접근 권한</strong></a>
+  <a href="/chapters/sql-parameter-binding"><span>02 / SQL</span><strong>입력과 검색 조건</strong></a>
+  <a href="/chapters/server-trust-boundary"><span>03 / TRUST</span><strong>서버의 신뢰 경계</strong></a>
+  <a href="/chapters/login-rate-limiting"><span>04 / LOGS</span><strong>로그와 요청 제한</strong></a>
+</nav>
+
+<!-- END_TRACE_HERO -->
+<section class="starter-path" aria-labelledby="starter-title"><div class="section-head"><h2 id="starter-title">기초 실습</h2><span>처음이라면 이 세 가지부터</span></div><div class="starter-grid"><button data-mission="0"><span>01 · 계정의 기초</span><strong>비밀번호 만들기 →</strong><small>내 계정을 지키는 열쇠를 배워요.</small></button><button data-mission="1"><span>02 · 의심하는 연습</span><strong>가짜 메일 구별하기 →</strong><small>속이는 말과 링크를 찾아봐요.</small></button><button data-mission="13"><span>03 · 첫 규칙 실험</span><strong>내 게임 규칙 바꾸기 →</strong><small>값을 바꾸면 무엇이 달라질까요?</small></button></div></section>
 <div class="section-head theory-head"><h2>해킹 기법, 쉽게 알아보기</h2><button class="link" data-view="techniques">도감 전체 보기 ↗</button></div>
 <div class="tech-shelf"><button data-open-tech="reverse"><span class="shelf-symbol">↶</span><span><small>동작을 거꾸로 분석</small><strong>리버스 엔지니어링</strong></span><b>↗</b></button><button data-open-tech="sql"><span class="shelf-symbol">&lt;&gt;</span><span><small>검색어가 명령이 된다면</small><strong>SQL Injection</strong></span><b>↗</b></button><button data-open-tech="tamper"><span class="shelf-symbol">{ }</span><span><small>내 게임의 규칙 바꾸기</small><strong>클라이언트 변조</strong></span><b>↗</b></button></div>
 <div class="section-head"><h2>실습 라이브러리 <span class="catalog-count">31</span></h2><span id="mission-count">원하는 임무부터 시작해요</span></div><div class="catalog-toolbar"><label class="catalog-search"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg><input id="mission-search" type="search" aria-label="실습 제목 또는 기법 검색" placeholder="제목 또는 기법 검색"></label><label class="learning-select">학습 단계 <select id="learning-level"><option value="all">전체 단계</option><option value="basic">기초</option><option value="practice">규칙 실험</option><option value="applied">응용 원리</option></select></label></div><div class="filters" role="group" aria-label="미션 분야"><button class="filter active" data-filter="all" aria-pressed="true">전체</button><button class="filter" data-filter="web" aria-pressed="false">웹 취약점</button><button class="filter" data-filter="privacy" aria-pressed="false">개인정보</button><button class="filter" data-filter="scam" aria-pressed="false">피싱·사기</button><button class="filter" data-filter="account" aria-pressed="false">계정 보안</button><button class="filter" data-filter="defense" aria-pressed="false">시스템 방어</button><button class="filter" data-filter="games" aria-pressed="false">게임·역분석</button></div><div class="mission-grid" id="mission-grid"></div><div class="sector-note">모든 미션은 가상의 상황이에요. 실패해도 무료로 다시 도전할 수 있어요.</div></div>
@@ -1353,6 +1485,89 @@ if(typeof IntersectionObserver==='function'){
   document.querySelectorAll('.starter-path,.catalog-toolbar,.right>.panel,.guide-grid>.panel').forEach(element=>reveal.observe(element));
 }
 if($('#overlay').classList.contains('open'))labDecorateLesson();
+
+// Two bounded canvas layers and one authored SVG. No images, libraries or network requests.
+(()=>{
+  const scene=document.getElementById('code-scene');if(!scene)return;
+  const atmosphere=scene.querySelector('.code-atmosphere');
+  const figure=document.getElementById('code-figure');
+  const button=document.getElementById('code-motion-toggle');
+  // Share the same live preference object as lesson motion and its cancellation listener.
+  const preference=labMotionPreference;
+  const characters='01ABCDEF{}[]<>/?:=+_';
+  let width=0,height=0,elapsed=0,previousTime=0,frame=0,visible=false,paused=false,reducedMotion=preference.matches;
+  const layers=['back','front'].map(name=>{
+    const canvas=document.getElementById('code-rain-'+name);
+    return {canvas,context:canvas.getContext('2d'),columns:[],front:name==='front'};
+  });
+  const noise=value=>{const number=Math.sin(value*127.1+311.7)*43758.5453;return number-Math.floor(number);};
+  function resize(){
+    const bounds=atmosphere.getBoundingClientRect();if(!bounds.width||!bounds.height)return;
+    width=bounds.width;height=bounds.height;
+    const ratio=Math.min(devicePixelRatio||1,1.5);
+    for(const layer of layers){
+      if(!layer.context)continue;
+      layer.canvas.width=Math.round(width*ratio);layer.canvas.height=Math.round(height*ratio);
+      layer.context.setTransform(ratio,0,0,ratio,0,0);
+      layer.context.font='11px ui-monospace, monospace';
+      layer.columns=Array.from({length:Math.ceil(width/(layer.front?57:18))},(_,index)=>({
+        x:index*(layer.front?57:18)+(layer.front?21:8),seed:index+(layer.front?93:1),
+        speed:(layer.front?25:33)+noise(index+5)*35,length:8+Math.floor(noise(index+17)*13),offset:noise(index+47)*(height+350)
+      }));
+    }
+    paint();sync();
+  }
+  function paint(){
+    if(!width||!height)return;
+    for(const layer of layers){
+      const context=layer.context;if(!context)continue;
+      context.clearRect(0,0,width,height);
+      for(const column of layer.columns){
+        const head=(column.offset+elapsed*column.speed)%(height+column.length*17);
+        for(let index=0;index<column.length;index++){
+          const y=head-index*17;if(y<-17||y>height+17)continue;
+          const alpha=(1-index/column.length)*(layer.front ? .52 : .72);
+          context.fillStyle=index===0?'rgba(202,237,175,'+alpha+')':'rgba(113,166,88,'+alpha+')';
+          const glyph=Math.floor(noise(column.seed*29+index+Math.floor(elapsed*2))*characters.length);
+          context.fillText(characters[glyph],column.x,y);
+        }
+      }
+    }
+    // Start with a visible figure; descend slowly, fade at the edge, then enter again.
+    const position=((elapsed/19)+.24)%1;
+    const drop=-43+position*(height<300?100:165);
+    figure.style.transform='translate(-50%,'+drop.toFixed(1)+'px)';
+    figure.style.opacity=String(Math.min(1,position/.14,(1-position)/.15)*.94);
+  }
+  function shouldRun(){return visible&&!document.hidden&&!paused&&!reducedMotion&&document.getElementById('missions').classList.contains('active')&&!document.getElementById('overlay').classList.contains('open');}
+  function tick(time){
+    frame=0;if(!shouldRun()){previousTime=0;return;}
+    if(!previousTime)previousTime=time;
+    const delta=time-previousTime;
+    if(delta>=1000/24){elapsed+=Math.min(delta,120)/1000;previousTime=time;paint();}
+    frame=requestAnimationFrame(tick);
+  }
+  function sync(){
+    if(shouldRun()){if(!frame){previousTime=0;frame=requestAnimationFrame(tick);}}
+    else {if(frame)cancelAnimationFrame(frame);frame=0;previousTime=0;}
+    button.disabled=reducedMotion;
+    button.setAttribute('aria-pressed',String(paused||reducedMotion));
+    button.setAttribute('aria-label',reducedMotion?'움직임 줄이기 설정으로 정지 화면 표시':paused?'첫 화면 그래픽 움직임 재생하기':'첫 화면 그래픽 움직임 멈추기');
+    button.querySelector('.code-toggle-label').textContent=reducedMotion?'정지 화면':paused?'재생':'멈춤';
+    button.firstElementChild.textContent=paused&&!reducedMotion?'▷':'Ⅱ';
+    scene.classList.toggle('code-scene-paused',paused||reducedMotion);
+  }
+  button.addEventListener('click',()=>{paused=!paused;sync();});
+  preference.addEventListener('change',event=>{reducedMotion=event.matches;if(reducedMotion){elapsed=0;paint();}sync();});
+  document.addEventListener('visibilitychange',sync);
+  new MutationObserver(sync).observe(document.getElementById('missions'),{attributes:true,attributeFilter:['class']});
+  new MutationObserver(sync).observe(document.getElementById('overlay'),{attributes:true,attributeFilter:['class']});
+  if(typeof IntersectionObserver==='function')new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();},{threshold:.08}).observe(scene);
+  else visible=true;
+  if(typeof ResizeObserver==='function')new ResizeObserver(resize).observe(atmosphere);
+  else window.addEventListener('resize',resize);
+  resize();
+})();
 
 </script>
 <!-- END_TRACE_APP -->

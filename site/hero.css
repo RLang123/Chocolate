@@ -1,0 +1,72 @@
+/* The moving scene is contained: the explanation and action never drift. */
+.welcome.lab-hero.editorial-hero.hacker-hero { display:grid; grid-template-columns:1fr 1.04fr; min-height:440px; padding:0; gap:0; background:#f0f1e9; border:1px solid #d4dcc7; border-radius:9px; margin-bottom:0; overflow:hidden; }
+.hacker-hero .welcome-text { padding:33px 29px; align-self:center; max-width:none; }
+.hacker-hero .welcome-text>.eyebrow { color:#626b46; letter-spacing:.3px; font:600 11px system-ui,sans-serif; }
+.hacker-hero h1 { color:#7b263f; font-size:clamp(29px,2.3vw,37px); line-height:1.4; letter-spacing:-1.3px; margin:20px 0; text-wrap:balance; }
+.hacker-hero .welcome-text>p { font-size:13px; line-height:1.95; color:#4d5743; max-width:370px; word-break:keep-all; }
+.hacker-hero .hero-actions { gap:14px; margin-top:24px; }
+.hacker-hero .hero-actions>.btn { margin:0; font-size:12px; padding:12px 15px; min-height:45px; }
+.hacker-hero .hero-link { font-size:11px; color:#5b674b; }
+.hero-start-note { display:block; margin-top:14px; color:#5c694d; font-size:10px; line-height:1.7; }
+.code-scene { position:relative; align-self:stretch; margin:0; min-width:0; min-height:440px; overflow:hidden; background:#080f0b; border-left:1px solid #303f2c; isolation:isolate; }
+.code-scene::after { content:''; position:absolute; inset:0; pointer-events:none; box-shadow:inset 0 0 70px #0006; z-index:2; }
+.code-scene-bar { position:relative; z-index:5; display:flex; align-items:center; justify-content:space-between; gap:9px; padding:14px 17px; border-bottom:1px solid #45603757; background:#0c140fe8; color:#b1c7a0; }
+.code-scene-bar figcaption { display:flex; align-items:center; gap:8px; font:8px ui-monospace,monospace; letter-spacing:.7px; }
+.code-scene-bar figcaption>span { color:#89ac72; font-size:15px; }
+.code-motion-toggle { display:flex; align-items:center; gap:6px; padding:5px 7px; background:#19271b; border:1px solid #526f425f; border-radius:4px; color:#bfd7ad; font-size:9px; min-height:29px; white-space:nowrap; }
+.code-motion-toggle:hover { background:#253b26; border-color:#819e65; }
+.code-motion-toggle[aria-pressed="true"] { background:#233721; color:#d4e4c7; border-color:#668052; }
+.code-motion-toggle:focus-visible { outline:2px solid #e7a2b8; outline-offset:3px; }
+.code-motion-toggle:disabled { opacity:1; color:#9aae8e; cursor:default; }
+.code-atmosphere { position:absolute; inset:48px 0 0; pointer-events:none; overflow:hidden; background:radial-gradient(ellipse at 50% 34%,#233c2380,transparent 63%); }
+.code-rain { position:absolute; inset:0; width:100%; height:100%; display:block; }
+.code-rain-back { z-index:0; opacity:.88; }
+.code-halo { position:absolute; left:12%; top:7%; width:76%; height:64%; background:radial-gradient(ellipse,#78a35e12,transparent 70%); }
+.code-figure { position:absolute; left:50%; top:2px; width:min(90%,350px); height:auto; z-index:1; transform:translate(-50%,12px); filter:drop-shadow(0 0 11px #72975b33); will-change:transform,opacity; }
+.code-rain-front { z-index:2; opacity:.47; }
+.code-coordinate { position:absolute; top:16px; right:14px; text-align:right; color:#abc68f7a; font:7px/1.8 ui-monospace,monospace; letter-spacing:.8px; z-index:3; }
+.code-learning-panel { position:absolute; left:17px; right:17px; bottom:17px; z-index:4; border:1px solid #5b774760; border-top:2px solid #8a354f; border-radius:5px; background:#0b160ff2; padding:15px; box-shadow:0 12px 30px #0005; }
+.code-panel-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:15px; }
+.code-panel-head>span { color:#dce7d3; font-size:11px; font-weight:600; }
+.code-panel-head>small { color:#a6be93; font:8px ui-monospace,monospace; }
+.code-example { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.code-example>div { display:grid; gap:5px; }
+.code-example>div>span { font-size:9px; color:#9bb48b; }
+.code-example code { font:11px ui-monospace,monospace; color:#d2e4c6; }
+.code-example code b { color:#b4de97; font-weight:500; }
+.code-example-arrow { color:#7c9f65; font-size:16px; }
+.code-learning-flow { display:flex; gap:0; justify-content:space-between; list-style:none; padding:12px 0 0; margin:14px 0 0; border-top:1px solid #3e56323b; color:#d3dfc8; font-size:9px; white-space:nowrap; }
+.code-learning-flow li+li::before { content:'›'; color:#839f6c; margin-right:9px; }
+.course-index.hero-chapters { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; border-left:0; border-top:0; border-bottom:1px solid #d8decd; margin:0 0 29px; padding:19px 6px; }
+.hero-chapters a { gap:5px; min-width:0; }
+.hero-chapters strong { font-size:11px; }
+.hero-chapters span { font-size:8px; }
+@media(min-width:1600px) { .hacker-hero .welcome-text { padding:42px 36px; } .hacker-hero h1 { font-size:40px; } .code-scene { min-height:460px; } }
+@media(max-width:1300px) and (min-width:1221px) { .hacker-hero .welcome-text { padding:27px 24px; } .hacker-hero h1 { font-size:30px; } .code-scene-bar { padding:13px; } .code-scene-bar figcaption { font-size:7px; } }
+@media(max-width:1050px) and (min-width:761px) {
+  .hacker-hero .welcome-text { padding:28px 25px; }
+  .hacker-hero h1 { font-size:30px; }
+  .code-scene-bar { padding:13px; }
+  .code-scene-bar figcaption { font-size:7px; letter-spacing:.3px; }
+  .code-learning-panel { left:13px; right:13px; padding:13px; }
+  .code-learning-flow { font-size:8px; }
+}
+@media(max-width:760px) {
+  .welcome.lab-hero.editorial-hero.hacker-hero { grid-template-columns:1fr; border-radius:8px; }
+  .hacker-hero .welcome-text { padding:29px 25px 28px; }
+  .hacker-hero h1 { font-size:32px; margin:18px 0; }
+  .hacker-hero .hero-actions { gap:15px; margin-top:21px; }
+  .code-scene { min-height:290px; border-left:0; border-top:1px solid #303f2c; }
+  .code-scene-bar { padding:10px 16px; }
+  .code-scene-bar figcaption { font-size:8px; }
+  .code-atmosphere { inset:42px 0 0; }
+  .code-figure { top:-32px; width:230px; }
+  .code-learning-panel { bottom:14px; left:16px; right:16px; padding:12px 14px; }
+  .code-panel-head { margin-bottom:10px; }
+  .code-learning-flow { padding-top:9px; margin-top:10px; }
+  .code-coordinate { top:13px; right:13px; }
+  .course-index.hero-chapters { grid-template-columns:1fr 1fr; padding:18px 3px; gap:16px; }
+  .hero-chapters strong { font-size:12px; }
+}
+@media(max-width:360px) { .hacker-hero .welcome-text { padding:25px 21px; } .hacker-hero h1 { font-size:28px; } .code-scene-bar figcaption { font-size:7px; letter-spacing:.2px; } .code-learning-panel { left:12px; right:12px; padding:12px; } .code-learning-flow { font-size:8px; } .hero-chapters strong { font-size:11px; } }
+@media(prefers-reduced-motion:reduce) { .code-figure { will-change:auto; } }

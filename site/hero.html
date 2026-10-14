@@ -1,0 +1,56 @@
+<section class="welcome lab-hero editorial-hero hacker-hero" aria-labelledby="hero-title">
+  <div class="welcome-text">
+    <span class="eyebrow">처음 배우는 해킹과 보안</span>
+    <h1 id="hero-title">요청을 읽고,<br>서버의 판단을 확인합니다.</h1>
+    <p>직접 바꿔 보고, 결과를 비교하며 배우는 보안 실습.<br>처음이라도 설명을 따라 시작할 수 있어요.</p>
+    <div class="hero-actions">
+      <button class="btn" data-mission="0">첫 실습 시작하기 <span aria-hidden="true">→</span></button>
+      <a class="hero-link" href="/chapters">어떤 것을 배우나요?</a>
+    </div>
+    <small class="hero-start-note">가입 없이 시작 · 쉬운 설명과 단계별 힌트</small>
+  </div>
+  <figure class="code-scene" id="code-scene" aria-labelledby="code-scene-title">
+    <div class="code-scene-bar">
+      <figcaption id="code-scene-title"><span aria-hidden="true">⌘</span> TRACELAB / FIELD NOTES</figcaption>
+      <button type="button" class="code-motion-toggle" id="code-motion-toggle" aria-label="첫 화면 그래픽 움직임 멈추기" aria-pressed="false"><span aria-hidden="true">Ⅱ</span><span class="code-toggle-label">멈춤</span></button>
+    </div>
+    <div class="code-atmosphere" aria-hidden="true">
+      <canvas class="code-rain code-rain-back" id="code-rain-back"></canvas>
+      <div class="code-halo"></div>
+      <svg class="code-figure" id="code-figure" viewBox="0 0 400 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hood-fabric" x1="104" y1="70" x2="306" y2="342" gradientUnits="userSpaceOnUse"><stop stop-color="#314733"/><stop offset=".45" stop-color="#15271a"/><stop offset="1" stop-color="#080f0b"/></linearGradient>
+          <linearGradient id="hood-edge" x1="81" y1="131" x2="306" y2="262" gradientUnits="userSpaceOnUse"><stop stop-color="#b4e49e"/><stop offset=".5" stop-color="#476d43"/><stop offset="1" stop-color="#91c583"/></linearGradient>
+          <linearGradient id="hood-body" x1="200" y1="252" x2="200" y2="418" gradientUnits="userSpaceOnUse"><stop stop-color="#1c3020"/><stop offset="1" stop-color="#080e0a"/></linearGradient>
+          <radialGradient id="hood-face" cx="0" cy="0" r="1" gradientTransform="translate(216 203) rotate(96) scale(70 55)" gradientUnits="userSpaceOnUse"><stop stop-color="#24382a"/><stop offset="1" stop-color="#050b07"/></radialGradient>
+          <pattern id="hood-grid" width="7" height="7" patternUnits="userSpaceOnUse"><path d="M0 0H7M0 0V7" stroke="#acd98d" stroke-opacity=".075" stroke-width=".5"/></pattern>
+          <clipPath id="hood-shape"><path d="M200 38C157 40 128 73 108 116L76 210L91 250C45 264 21 309 10 412H390C379 309 355 264 309 250L324 210L292 116C272 73 243 40 200 38Z"/></clipPath>
+        </defs>
+        <path d="M94 246C45 266 21 309 10 412H390C379 309 355 266 306 246L200 281L94 246Z" fill="url(#hood-body)" stroke="#5c8555" stroke-opacity=".75" stroke-width="1.4"/>
+        <path d="M200 38C157 40 128 73 108 116L76 210L91 250L145 283L200 302L255 283L309 250L324 210L292 116C272 73 243 40 200 38Z" fill="url(#hood-fabric)" stroke="url(#hood-edge)" stroke-width="1.8"/>
+        <path d="M200 76C166 86 140 123 124 159L109 214L150 250L200 280L250 250L291 214L276 159C260 123 234 86 200 76Z" fill="#070f0a" stroke="#678d5b" stroke-width="1.2"/>
+        <path d="M153 159C164 131 180 119 200 116C224 119 242 139 250 160L246 218C236 243 218 259 200 264C182 259 164 243 154 218L153 159Z" fill="url(#hood-face)"/>
+        <path d="M133 167Q199 124 267 167L255 192Q198 171 145 192L133 167Z" fill="#040906"/>
+        <path d="M210 181L204 212L218 219M187 237Q201 242 217 233" stroke="#64805a" stroke-opacity=".55" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M200 38Q143 83 109 214M200 38Q258 85 291 214M78 211L150 250M322 211L250 250" stroke="#8cbb76" stroke-opacity=".37" stroke-width="1.1"/>
+        <path d="M91 250L141 296L127 360M309 250L259 296L273 360M145 283L177 327L200 302L224 327L255 283M200 304V404" stroke="#58744b" stroke-width="1.1"/>
+        <path d="M40 322L93 298L104 344M360 322L307 298L296 344M148 282L146 331M252 282L254 331" stroke="#91b67b" stroke-opacity=".35" stroke-width="1.4"/>
+        <path d="M143 331L140 347M257 331L260 347" stroke="#b5d899" stroke-opacity=".65" stroke-width="2" stroke-linecap="round"/>
+        <rect width="400" height="420" fill="url(#hood-grid)" clip-path="url(#hood-shape)"/>
+      </svg>
+      <canvas class="code-rain code-rain-front" id="code-rain-front"></canvas>
+      <span class="code-coordinate">01 / OBSERVE<br>02 / EXPERIMENT<br>03 / UNDERSTAND</span>
+    </div>
+    <div class="code-learning-panel">
+      <div class="code-panel-head"><span>이렇게 배웁니다</span><small>HTTP 실습 예시</small></div>
+      <div class="code-example"><div><span>보낸 요청</span><code>GET /profile</code></div><span class="code-example-arrow" aria-hidden="true">→</span><div><span>돌아온 응답</span><code><b>200</b> OK</code></div></div>
+      <ol class="code-learning-flow"><li>요청 보내기</li><li>응답 확인</li><li>안전한 방법 찾기</li></ol>
+    </div>
+  </figure>
+</section>
+<nav class="course-index hero-chapters" aria-label="전문 챕터 학습 자료">
+  <a href="/chapters/http-authorization"><span>01 / HTTP</span><strong>요청과 접근 권한</strong></a>
+  <a href="/chapters/sql-parameter-binding"><span>02 / SQL</span><strong>입력과 검색 조건</strong></a>
+  <a href="/chapters/server-trust-boundary"><span>03 / TRUST</span><strong>서버의 신뢰 경계</strong></a>
+  <a href="/chapters/login-rate-limiting"><span>04 / LOGS</span><strong>로그와 요청 제한</strong></a>
+</nav>
