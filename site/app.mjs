@@ -59,6 +59,23 @@ $('#techniques').append(dictionary);$('#glossary-search').oninput=event=>{glossa
 openTechnique=function(id){closeMission();showView('techniques');glossaryQuery=({reverse:'리버스',tamper:'클라이언트',brute:'무차별',stuffing:'스터핑',supply:'공급망',traversal:'경로'}[id]||id).toLowerCase();$('#glossary-search').value=glossaryQuery;renderGlossary();$('#glossary-search').focus();};
 
 const rankPanel=document.createElement('section');rankPanel.id='rank-mode';rankPanel.className='rank-mode';$('#league').insertBefore(rankPanel,$('#league .filters'));
+let rankBoardMode='learning',rankRefreshSequence=0;boardScope='all';
+const boardModes=document.createElement('div');boardModes.className='rank-board-modes';boardModes.setAttribute('role','group');boardModes.setAttribute('aria-label','랭킹 종류');boardModes.innerHTML='<button class="filter active" data-rank-mode="learning" aria-pressed="true">학습 랭킹</button><button class="filter" data-rank-mode="challenge" aria-pressed="false">하루 도전</button>';
+const learningCard=document.createElement('section');learningCard.className='learning-rank-card';learningCard.id='learning-rank-card';rankPanel.before(boardModes,learningCard);
+function renderLearningRank(){
+  const mine=rankBoardMode==='learning'?liveRows.find(row=>row.mine):null;
+  learningCard.innerHTML=online&&sessionPlayer?.nameLocked?`<h2>${escapeHtml(sessionPlayer.nickname)}</h2><p>별명을 만든 순간부터 참가합니다. 계정에 저장된 실습 완료 XP가 쌓이면 레벨과 순위가 올라갑니다.</p><div class="rank-account-numbers"><span>LV. ${sessionPlayer.level}</span><span>${sessionPlayer.xp} XP</span><span>${mine?mine.rank+'위':'순위 확인 중'}</span></div>`:'<h2>내 별명으로 레벨과 순위를 남겨요</h2><p>앞말과 뒷말을 골라 계정을 만들면 0 XP부터 참가합니다. 다른 컴퓨터에서는 복구 코드로 같은 계정을 이어하세요. 혼자 연습 기록은 별도로 보관합니다.</p><button class="btn" id="learning-signin">'+(online?'기존 기록 유지하고 별명 선택':'별명 만들고 참가하기')+'</button>';
+  if($('#learning-signin'))$('#learning-signin').onclick=()=>{showView('squad');$('#name-adjective')?.focus();};
+}
+function selectRankBoard(mode){
+  rankBoardMode=mode==='challenge'?'challenge':'learning';boardScope=rankBoardMode==='learning'?'all':'weekly';
+  boardModes.querySelectorAll('button').forEach(button=>{const active=button.dataset.rankMode===rankBoardMode;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));});
+  rankPanel.hidden=rankBoardMode!=='challenge';learningCard.hidden=rankBoardMode!=='learning';$('#league .filters').hidden=rankBoardMode==='learning';
+  $('#league>h1').textContent=rankBoardMode==='learning'?'학습 랭킹':'하루 도전';$('#league>.eyebrow').textContent=rankBoardMode==='learning'?'LEARNING RANK':'DAILY CHALLENGE';$('#league>.muted').textContent=rankBoardMode==='learning'?'누적 학습 XP · 100 XP마다 레벨 상승 · 별명과 기록은 계정에 유지됩니다.':'무작위 세 문제를 모두 완료하면 하루 도전 순위에 기록됩니다.';
+  document.querySelectorAll('[data-scope]').forEach(button=>button.classList.toggle('active',button.dataset.scope===boardScope));
+  renderLearningRank();refreshLeaderboard();if(rankBoardMode==='challenge')refreshRankMode();
+}
+boardModes.addEventListener('click',event=>{const button=event.target.closest('[data-rank-mode]');if(button)selectRankBoard(button.dataset.rankMode);});
 function rankRunMarkup(run){
   if(!online)return '<h2>서버가 채점하는 하루 도전</h2><p>닉네임으로 로그인한 뒤 세 문제를 완료하면 랭크 점수가 저장됩니다. 혼자 연습 기록은 랭크에 포함되지 않습니다.</p><button class="btn" id="rank-signin">로그인하고 시작</button>';
   if(!run)return '<h2>오늘의 랭크 도전</h2><p>무작위 세 문제 · 제한 시간 30분 · 최대 900점. 오답마다 25점이 차감됩니다. 속도는 동점일 때만 사용합니다. 하루 한 번(UTC 기준) 기록할 수 있습니다.</p><button class="btn" id="rank-start">랭크 도전 시작</button>';
@@ -68,10 +85,10 @@ function rankRunMarkup(run){
 }
 async function refreshRankMode(){
   const sequence=++rankViewSequence;
-  try{const data=online?await api('/api/rank/current'):null;if(sequence!==rankViewSequence)return;activeRank=data?.run||null;rankPanel.innerHTML=rankRunMarkup(activeRank);wireRankPanel();}catch(error){if(sequence===rankViewSequence)rankPanel.textContent=error.message;}
+  try{const data=online?await api('/api/rank/current'):null;if(sequence!==rankViewSequence)return;activeRank=data?.run||null;boardModes.querySelector('[data-rank-mode="challenge"]').textContent='하루 도전'+(activeRank?.status==='active'?' · 진행 중':activeRank?.status==='complete'?' · 완료':'');rankPanel.innerHTML=rankRunMarkup(activeRank);wireRankPanel();}catch(error){if(sequence===rankViewSequence)rankPanel.textContent=error.message;}
 }
 function wireRankPanel(){
-  if($('#rank-signin'))$('#rank-signin').onclick=()=>{showView('squad');$('#nickname')?.focus();};
+  if($('#rank-signin'))$('#rank-signin').onclick=()=>{showView('squad');$('#name-adjective')?.focus();};
   if($('#rank-start'))$('#rank-start').onclick=async()=>{const button=$('#rank-start');button.disabled=true;try{const data=await api('/api/rank/start',{});activeRank=data.run;await refreshRankMode();launchRankLesson();}catch(error){toast(error.message);if(button.isConnected)button.disabled=false;}};
   if($('#rank-continue'))$('#rank-continue').onclick=launchRankLesson;
 }
@@ -88,10 +105,11 @@ const traceBeginChallenge=beginChallenge;beginChallenge=async function(){
 const traceSubmitAnswer=submitAnswer;submitAnswer=async function(answer){const result=await traceSubmitAnswer(answer);if(result?.rank)activeRank=result.rank;return result;};
 const traceNextLesson=nextLessonMarkup;nextLessonMarkup=function(){return rankLessonId?`<section class="next-lesson"><strong>${activeRank?.status==='complete'?'세 문제를 모두 완료했습니다.':'다음 랭크 문제로 이동합니다.'}</strong><button class="btn" data-rank-next>${activeRank?.status==='complete'?'랭크 결과 보기':'다음 랭크 문제'}</button></section>`:traceNextLesson();};
 document.addEventListener('click',async event=>{if(!event.target.closest('[data-rank-next]'))return;closeMission();showView('league');await refreshRankMode();await refreshLeaderboard();if(activeRank?.status==='active')launchRankLesson();});
-const traceRankMarkup=rankMarkup;rankMarkup=function(row,index){return row.score!==undefined?`<div class="rank-row ${row.mine?'mine':''}"><span class="rank-index">${row.rank||index+1}</span><strong>${escapeHtml(row.name)}${row.mine?' · 나':''}</strong><span class="rank-tier">${row.tier}</span><span>${row.score}점</span></div>`:traceRankMarkup(row,index);};
-refreshLeaderboard=async function(){if(networkStatus!=='ready')return;try{const data=await api('/api/rank/leaderboard?scope='+boardScope);liveRows=data.rows;$('#board-status').textContent=`${boardScope==='weekly'?'최근 7일':'전체 기간'} · 완료한 참가자 ${data.participants}명 · 서버 기록 기준`;renderStats();}catch(error){$('#board-status').textContent=error.message;}};
+const traceRankMarkup=rankMarkup;rankMarkup=function(row,index){return row.score!==undefined?`<div class="rank-row ${row.mine?'mine':''}"><span class="rank-index">${row.rank||index+1}</span><strong>${escapeHtml(row.name)}${row.mine?' · 나':''}</strong><span class="rank-tier">${row.tier}</span><span>${row.score}점</span></div>`:row.level!==undefined?`<div class="rank-row ${row.mine?'mine':''}"><span class="rank-index">${row.rank||index+1}</span><strong>${escapeHtml(row.name)}${row.mine?' · 나':''}</strong><span class="rank-level">LV. ${row.level}</span><span>${row.xp} XP</span></div>`:traceRankMarkup(row,index);};
+refreshLeaderboard=async function(){if(networkStatus!=='ready')return;const sequence=++rankRefreshSequence,mode=rankBoardMode,identity=sessionPlayer?.id;try{const data=await api('/api/rank/leaderboard?mode='+mode+'&scope='+boardScope);if(sequence!==rankRefreshSequence||mode!==rankBoardMode||identity!==sessionPlayer?.id)return;liveRows=data.rows;$('#board-status').textContent=mode==='learning'?`누적 XP · 참가자 ${data.participants}명 · 상위 100명과 내 순위 · 서버 기록 기준`:`${boardScope==='weekly'?'최근 7일':'전체 기간'} · 세 문제 완료한 참가자 ${data.participants}명 · 서버 기록 기준`;renderStats();renderLearningRank();}catch(error){if(sequence===rankRefreshSequence)$('#board-status').textContent=error.message;}};
 const traceShowView=showView;showView=function(id){traceShowView(id);if(id==='league'){refreshRankMode();refreshLeaderboard();}};
 const traceApplyPlayer=applyPlayer;applyPlayer=function(player){traceApplyPlayer(player);if(appView==='league')refreshRankMode();};
 renderGlossary();renderStats();refreshRankMode();
+selectRankBoard('learning');
 if(location.pathname==='/rank')showView('league');
 if(location.pathname==='/learn'){const id=Number(new URLSearchParams(location.search).get('mission'));if(missions.some(item=>item.id===id))openMission(id);}

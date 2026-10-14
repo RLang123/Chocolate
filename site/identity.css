@@ -1,0 +1,37 @@
+.identity-heading>h2 { font-size:24px; font-weight:680; color:#7b263f; margin:10px 0; }
+.identity-heading>p { color:#526147; font-size:13px; line-height:1.9; margin:10px 0 22px; }
+.name-picker { display:grid; grid-template-columns:1fr 18px 1fr; gap:13px; align-items:end; }
+.name-picker>label { display:grid; gap:8px; font-size:12px; color:#566847; min-width:0; }
+.name-picker>.field,.name-picker select { width:100%; min-width:0; margin:0; }
+.name-picker>span { text-align:center; color:#7b263f; padding-bottom:12px; }
+.name-preview { border:1px solid #d8c0cb; border-left:3px solid #7b263f; background:#f6edf1; padding:22px; margin:20px 0 13px; border-radius:6px; display:grid; gap:8px; }
+.name-preview>span { font-size:10px; color:#875267; }
+.name-preview>strong { font-size:26px; font-weight:650; color:#66253d; }
+.name-preview>small { font-size:11px; color:#795462; }
+.name-check-row { display:flex; justify-content:space-between; align-items:center; gap:14px; margin:10px 0 23px; }
+.identity-status { font-size:12px; color:#637951; line-height:1.8; margin:10px 0; }
+.identity-status[data-available="false"] { color:#8b3555; }
+.identity-backup { padding:21px; background:#eef2e7; border:1px solid #cbd8ba; border-radius:6px; margin:20px 0; }
+.identity-backup>strong { font-size:13px; color:#3f542f; }
+.identity-backup>p,.recovery-renew>p,.identity-restore>p { font-size:12px; color:#5b6c4a; line-height:1.9; margin:10px 0; }
+.identity-secret { font:12px/1.9 ui-monospace,monospace!important; color:#3b512b!important; padding:14px; background:#fff; border:1px solid #ccd8bc; border-radius:4px; overflow-wrap:anywhere; user-select:all; margin:13px 0; }
+.identity-ack { display:flex; align-items:start; gap:9px; font-size:12px; line-height:1.8; color:#536847; margin:15px 0 0; }
+.identity-ack input { flex:none; width:16px; height:16px; accent-color:#7b263f; margin-top:3px; }
+.identity-restore,.recovery-renew { padding-top:19px; border-top:1px solid #d4dec7; margin-top:23px; }
+.identity-restore>summary,.recovery-renew>summary { font-size:12px; color:#7b263f; cursor:pointer; line-height:1.8; }
+.identity-restore .community-fields { display:grid; grid-template-columns:1fr auto; align-items:end; }
+.identity-restore label { display:grid; gap:8px; color:#566847; font-size:11px; }
+.identity-restore input { width:100%; margin:0; }
+.identity-lesson-note { border:1px solid #d6bec8; background:#f6edf1; border-radius:6px; padding:19px; margin:18px 0; }
+.identity-lesson-note strong { color:#76304a; font-size:13px; }
+.identity-lesson-note p { font-size:12px; color:#765566; margin:8px 0 15px; }
+.rank-board-modes { display:flex; gap:8px; margin:23px 0 15px; }
+.rank-mode[hidden],.learning-rank-card[hidden],#league>.filters[hidden] { display:none!important; }
+.learning-rank-card { padding:24px; border:1px solid #d2dcc5; border-left:3px solid #7b263f; background:#f0f3e9; border-radius:6px; margin:16px 0; }
+.learning-rank-card h2 { color:#34482a; font-size:20px; font-weight:650; }
+.learning-rank-card p { font-size:13px; line-height:1.9; color:#5b6e49; margin:10px 0; }
+.learning-rank-card .rank-account-numbers { display:flex; flex-wrap:wrap; gap:18px; margin-top:15px; font:12px ui-monospace,monospace; color:#7b263f; }
+.rank-board-notice { font-size:12px; line-height:1.8; color:#5e7051; margin:16px 0; }
+.rank-level { color:#617b45; font:11px ui-monospace,monospace; white-space:nowrap; }
+.rank-row strong { overflow-wrap:anywhere; }
+@media(max-width:680px) { .name-picker { gap:9px; grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr); } .name-picker select { font-size:13px; } .name-preview>strong { font-size:23px; } .name-preview,.identity-backup { padding:18px; } .name-check-row { align-items:start; flex-direction:column; gap:4px; } .identity-secret { font-size:10px!important; padding:12px; } .identity-restore .community-fields { grid-template-columns:1fr; } .identity-heading>h2 { font-size:21px; } .learning-rank-card { padding:20px; } .rank-row { gap:8px; } .rank-row strong { font-size:12px; } .rank-level { font-size:9px; } }

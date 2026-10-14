@@ -11,7 +11,7 @@ function block(start,end,contents,before){
   else html=html.replace('</body>',content+'\n</body>');
 }
 block('<!-- TRACE_CONTENT -->','<!-- END_TRACE_CONTENT -->',inlineModule('server/content.mjs'),'<!-- SHARED_RULES -->');
-block('<!-- SHARED_RULES -->','<!-- END_SHARED_RULES -->',inlineModule('server/advanced.mjs')+'\n'+inlineModule('server/rules.mjs'),"<script>\n'use strict';");
+block('<!-- SHARED_RULES -->','<!-- END_SHARED_RULES -->',inlineModule('server/names.mjs')+'\n'+inlineModule('server/advanced.mjs')+'\n'+inlineModule('server/rules.mjs'),"<script>\n'use strict';");
 const heroStart='<!-- TRACE_HERO -->',heroEnd='<!-- END_TRACE_HERO -->';
 const heroMarkup=heroStart+'\n'+source('site/hero.html')+'\n'+heroEnd+'\n';
 if(html.includes(heroStart)){const a=html.indexOf(heroStart),b=html.indexOf(heroEnd,a)+heroEnd.length;html=html.slice(0,a)+heroMarkup.trimEnd()+html.slice(b);}
@@ -20,14 +20,14 @@ else {
   if(a<0||b<0)throw new Error('Homepage hero placement was not found.');
   html=html.slice(0,a)+heroMarkup+html.slice(b);
 }
-const app=source('site/app.mjs')+'\n'+source('site/motion.mjs')+'\n'+source('site/hero.mjs')+'\n'+source('site/experience.mjs');
+const app=source('site/app.mjs')+'\n'+source('site/motion.mjs')+'\n'+source('site/hero.mjs')+'\n'+source('site/experience.mjs')+'\n'+source('site/identity.mjs');
 if(app.includes('</script>'))throw new Error('Frontend script contains an unsafe HTML closing marker.');
 block('<!-- TRACE_APP -->','<!-- END_TRACE_APP -->',app);
 const styleStart='/* TRACE_MOTION */',styleEnd='/* END_TRACE_MOTION */';
-const motionStyles=styleStart+'\n'+source('site/motion.css')+'\n'+source('site/hero.css')+'\n'+source('site/experience.css')+'\n'+styleEnd;
+const motionStyles=styleStart+'\n'+source('site/motion.css')+'\n'+source('site/hero.css')+'\n'+source('site/experience.css')+'\n'+source('site/identity.css')+'\n'+styleEnd;
 if(html.includes(styleStart)){const a=html.indexOf(styleStart),b=html.indexOf(styleEnd,a)+styleEnd.length;html=html.slice(0,a)+motionStyles+html.slice(b);}
 else html=html.replace('</style>',motionStyles+'\n</style>');
 writeFileSync('index.html',html);mkdirSync('dist/server',{recursive:true});writeFileSync('dist/index.html',html);
-const modules=['advanced','rules','content','security','pages','rank','labs','worker'].map(name=>inlineModule('server/'+name+'.mjs')).join('\n');
+const modules=['names','advanced','rules','content','security','pages','rank','labs','identity','answers','worker'].map(name=>inlineModule('server/'+name+'.mjs')).join('\n');
 writeFileSync('dist/server/index.js',modules+'\nexport default createWorker('+JSON.stringify(html)+');\n');
 console.log('Built TraceLab frontend, public learning pages and Cloudflare Worker.');

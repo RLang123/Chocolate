@@ -1,3 +1,4 @@
+import {fixtureName,registration} from './name-fixture.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {database} from '../scripts/sqlite.mjs';
@@ -11,7 +12,7 @@ function fixture(){
   const client=()=>{let cookie='';return {async call(path,body,headers={}){const response=await worker.fetch(new Request('https://site.test'+path,{method:body===undefined?'GET':'POST',headers:{Cookie:cookie,...(body===undefined?{}:{Origin:'https://site.test','Content-Type':'application/json'}),...headers},...(body===undefined?{}:{body:JSON.stringify(body)})}),{DB:db});if(response.headers.get('Set-Cookie'))cookie=response.headers.get('Set-Cookie').split(';')[0];let data;try{data=await response.clone().json();}catch{data=await response.clone().text();}return {status:response.status,data,response};}};};
   return {db,worker,client};
 }
-async function join(client,name){assert.equal((await client.call('/api/profile',{nickname:name,avatar:0})).status,201);}
+async function join(client,name){assert.equal((await client.call('/api/profile',registration(fixtureName(name)))).status,201);}
 async function solveMission(client,id,rankRunId){
   const start=await client.call('/api/attempts/start',{missionId:id,...(rankRunId?{rankRunId}:{})});assert([200,201].includes(start.status));
   const attempt=start.data.attempt;
@@ -84,7 +85,7 @@ test('security headers cover HTML/API/errors, reject oversized/cross-site bodies
     for(const path of ['/','/missing','/api/me']){const {response}=await a.call(path);assert.equal(response.headers.get('X-Frame-Options'),'DENY');assert.equal(response.headers.get('Strict-Transport-Security'),'max-age=31536000');const csp=response.headers.get('Content-Security-Policy');assert.match(csp,/script-src 'self' 'sha256-/);assert(!csp.split('style-src')[0].includes('unsafe-inline'));assert.match(csp,/object-src 'none'/);}
     assert.equal((await a.call('/api/profile',{nickname:'검증','x':'a'.repeat(21000)})).status,413);
     assert.equal((await a.call('/api/profile',{nickname:'검증'},{'Sec-Fetch-Site':'cross-site'})).status,403);
-    const joined=await a.call('/api/profile',{nickname:'보안확인'});assert.match(joined.response.headers.get('Set-Cookie'),/HttpOnly; SameSite=Lax; Max-Age=2592000; Secure/);
+    const joined=await a.call('/api/profile',registration(fixtureName('보안확인')));assert.match(joined.response.headers.get('Set-Cookie'),/HttpOnly; SameSite=Lax; Max-Age=2592000; Secure/);
     assert.equal(parseLabRequest('GET / HTTP/1.1\nHost: real.example'),null);
     assert.equal(parseLabRequest('GET //real.example HTTP/1.1\nHost: lab.local'),null);
     assert.equal(parseLabRequest('GET /admin HTTP/1.1\nHost: lab.local\nAuthorization: Bearer real-token'),null);

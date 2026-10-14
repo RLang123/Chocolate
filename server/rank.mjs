@@ -41,8 +41,18 @@ export async function rankLeaderboard(db,player,scope='weekly'){
     FROM rank_runs r WHERE status='complete' ${scope==='weekly'?'AND day>=?':''}
   ), ranked AS (
     SELECT b.*,p.nickname,ROW_NUMBER() OVER(ORDER BY score DESC,(finished_at-started_at) ASC,finished_at ASC,player_id ASC) place
-    FROM best b JOIN players p ON p.id=b.player_id WHERE choice=1
+    FROM best b JOIN players p ON p.id=b.player_id WHERE choice=1 AND p.name_locked=1
   ) SELECT player_id,nickname,score,place,finished_at-started_at duration_ms,COUNT(*) OVER() participants FROM ranked ORDER BY place LIMIT 100`;
   const {results}=await rankQuery(db,sql,...(scope==='weekly'?[since]:[])).all();
   return {scope,rows:results.map(row=>({rank:row.place,name:row.nickname,score:row.score,tier:rankTier(row.score),durationMs:row.duration_ms,mine:row.player_id===player?.id})),participants:results[0]?.participants||0,updatedAt:Date.now()};
+}
+export async function learningLeaderboard(db,player){
+  const sql=`WITH totals AS (
+    SELECT p.id,p.nickname,p.created_at,COALESCE(SUM(c.xp),0) xp,COUNT(DISTINCT c.mission_id) completed
+    FROM players p LEFT JOIN completions c ON c.player_id=p.id WHERE p.name_locked=1 GROUP BY p.id
+  ), placed AS (
+    SELECT *,ROW_NUMBER() OVER(ORDER BY xp DESC,completed DESC,created_at ASC,id ASC) place,COUNT(*) OVER() participants FROM totals
+  ) SELECT * FROM placed WHERE place<=100 OR id=? ORDER BY place`;
+  const {results}=await rankQuery(db,sql,player?.id||'').all();
+  return {mode:'learning',scope:'all',rows:results.map(row=>({rank:row.place,name:row.nickname,xp:row.xp,level:1+Math.floor(row.xp/100),completed:row.completed,mine:row.id===player?.id})),participants:results[0]?.participants||0,updatedAt:Date.now()};
 }
