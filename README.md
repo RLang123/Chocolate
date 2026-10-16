@@ -84,6 +84,7 @@ API 토큰을 코드나 채팅에 넣지 않습니다. `.devcontainer`는 Node�
 | `index.html` | 기본 화면·CSS·기존 실습 |
 | `site/app.mjs` | 전문 챕터·사전 검색·랭크 UI의 원본 |
 | `site/identity.mjs`, `site/identity.css` | 별명 선택·복구 코드·다른 기기 동기화·응답 재확인 |
+| `site/lesson.mjs`, `site/lesson.css` | 한 문제 중심 전체 화면·큰 답안·짧은 결과·고정 확인 버튼 |
 | `site/motion.css`, `site/motion.mjs` | 몰입형 실습 작업대·단계 전환·실행 피드백과 움직임 줄이기 |
 | `site/hero.html`, `site/hero.css`, `site/hero.mjs` | 첫 화면 설명·코드 비·해커 실루엣과 재생 제어 |
 | `site/experience.mjs`, `site/experience.css` | 요청 이동·단서 스캔·실제 수정 전후 비교·보안 학습 지도 |
@@ -99,4 +100,4 @@ API 토큰을 코드나 채팅에 넣지 않습니다. `.devcontainer`는 Node�
 | `migrations/0003_identity_and_receipts.sql` | 기존 계정을 유지하며 별명 고유 조건·가입 및 제출 기록 추가 |
 | `scripts/build.mjs` | 공통 모듈을 단일 HTML과 Worker로 묶기 |
 
-[주요 코드 안내](docs/CODE_GUIDE.md) · [처음부터 읽는 학습서](docs/LEARNING_GUIDE.md) · [랭크·전문 챕터·사전·보안 코드](docs/FEATURE_GUIDE.md) · [실습 화면과 움직임 배우기](docs/MOTION_GUIDE.md) · [첫 화면 그래픽 코드](docs/HERO_GUIDE.md) · [다섯 가지 디자인 효과 배우기](docs/EXPERIENCE_GUIDE.md) · [배포 오류 해결](docs/CLOUDFLARE_GUIDE.md).
+[주요 코드 안내](docs/CODE_GUIDE.md) · [처음부터 읽는 학습서](docs/LEARNING_GUIDE.md) · [랭크·전문 챕터·사전·보안 코드](docs/FEATURE_GUIDE.md) · [문제 UI 분석과 주요 코드](docs/LESSON_UI_GUIDE.md) · [실습 화면과 움직임 배우기](docs/MOTION_GUIDE.md) · [첫 화면 그래픽 코드](docs/HERO_GUIDE.md) · [다섯 가지 디자인 효과 배우기](docs/EXPERIENCE_GUIDE.md) · [배포 오류 해결](docs/CLOUDFLARE_GUIDE.md).
